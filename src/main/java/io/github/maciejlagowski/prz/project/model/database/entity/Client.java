@@ -1,15 +1,13 @@
 package io.github.maciejlagowski.prz.project.model.database.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 public class Client {
 

@@ -1,16 +1,14 @@
 package io.github.maciejlagowski.prz.project.model.database.entity;
 
 import io.github.maciejlagowski.prz.project.model.enums.CreditType;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Getter
-@Setter
-@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 public class Credit {
 
