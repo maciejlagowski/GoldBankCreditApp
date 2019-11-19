@@ -103,7 +103,7 @@ public class AccountRepository {
         Session session = DbmsOperations.getSession();
         try {
             session.beginTransaction();
-            SQLQuery query = session.createSQLQuery("DROP TABLE account");
+            SQLQuery query = session.createSQLQuery("DROP TABLE Account");
             query.executeUpdate();
             query = session.createSQLQuery("CREATE TABLE Account (" +
                     "    id int(100) NOT NULL AUTO_INCREMENT," +
