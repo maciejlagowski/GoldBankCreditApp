@@ -12,7 +12,7 @@ class DbmsOperations {
 
     private DbmsOperations() {}
 
-    static Session getSession() {
+    synchronized static Session getSession() {
         if (sessionFactory == null) {
             Configuration config = new Configuration();
             config.addAnnotatedClass(Account.class);

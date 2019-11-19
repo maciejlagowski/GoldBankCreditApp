@@ -10,13 +10,14 @@ import org.hibernate.Session;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AccountRepository {
+public class AccountRepository implements CrudRepository<Account> {
 
     //TODO clean and repair all of it
 
 //    private Logger logger = LoggerSingleton.getInstance();
 
-    public static void createRecord(Account account) {
+    @Override
+    public void createRecord(Account account) {
         Session session = DbmsOperations.getSession();
         try {
             session.beginTransaction();
@@ -36,7 +37,8 @@ public class AccountRepository {
         }
     }
 
-    public static List readAllRecords() {
+    @Override
+    public List readAllRecords() {
         Session session = DbmsOperations.getSession();
         List accounts = new LinkedList<>();
         try {
@@ -56,7 +58,8 @@ public class AccountRepository {
         return accounts;
     }
 
-    public static Account findRecordById(Long id) {
+    @Override
+    public Account findRecordById(Long id) {
         Session session = DbmsOperations.getSession();
         Account foundAccount = null;
         try {
@@ -77,7 +80,23 @@ public class AccountRepository {
         return foundAccount;
     }
 
-    public static void deleteAllRecords() {
+    @Override
+    public void updateRecord(Account object) {
+        //TODO
+    }
+
+    @Override
+    public void deleteRecordById(Long id) {
+        //TODO
+    }
+
+    @Override
+    public void deleteRecord(Account object) {
+        //TODO
+    }
+
+    @Override
+    public void deleteAllRecords() {
         Session session = DbmsOperations.getSession();
         try {
             session.beginTransaction();
@@ -99,7 +118,12 @@ public class AccountRepository {
         }
     }
 
-    public static void resetTable() {
+
+    /**
+     * temp method to test
+     */
+    @Deprecated
+    public void resetTable() {
         Session session = DbmsOperations.getSession();
         try {
             session.beginTransaction();
