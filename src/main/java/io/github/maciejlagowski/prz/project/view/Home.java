@@ -1,16 +1,5 @@
 package io.github.maciejlagowski.prz.project.view;
 
-//import javafx.application.Application;
-//import javafx.stage.Stage;
+public class Home extends View {
 
-public class Home{// extends Application {
-
-    public static void main(String[] args) {
-//        launch(args);
-    }
-
-//    @Override
-//    public void start(Stage primaryStage) {
-//
-//    }
 }
