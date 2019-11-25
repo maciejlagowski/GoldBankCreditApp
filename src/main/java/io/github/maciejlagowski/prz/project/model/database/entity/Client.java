@@ -14,12 +14,16 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NonNull
     private String forename;
+    @NonNull
     private String surname;
+    @NonNull
     private String address;
+    @NonNull
     private Long pesel;
     @OneToMany
     private List<Income> incomes;
-    @OneToMany
-    private List<Credit> credits;
+//    @OneToMany
+//    private List<Credit> credits;
 }

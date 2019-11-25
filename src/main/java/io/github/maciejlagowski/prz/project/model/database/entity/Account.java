@@ -13,8 +13,10 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    @ManyToOne
-    private Long client;    //TODO Client
+    @ManyToOne
+    @NonNull
+    private Client client;
+    @NonNull
     private Double balance;
     //TODO history?
 }

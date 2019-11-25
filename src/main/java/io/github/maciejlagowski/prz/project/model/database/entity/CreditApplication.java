@@ -21,4 +21,6 @@ public class CreditApplication {
     private List<Client> clients;
     private Double requestedAmount;
     private Risk risk;
+    @OneToOne
+    private Credit credit;
 }

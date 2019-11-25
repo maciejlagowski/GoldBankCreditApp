@@ -14,15 +14,10 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">maciek</property>
         <property name="show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
 
         <!-- Specifying Session Context -->
         <property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
 
-        <!-- Mapping With Model Class Containing Annotations -->
-        <mapping class="io.github.maciejlagowski.prz.project.model.database.entity.Account" />
-        <mapping class="io.github.maciejlagowski.prz.project.model.database.entity.Client" />
-        <mapping class="io.github.maciejlagowski.prz.project.model.database.entity.Credit" />
-        <mapping class="io.github.maciejlagowski.prz.project.model.database.entity.CreditApplication" />
-        <mapping class="io.github.maciejlagowski.prz.project.model.database.entity.Income" />
     </session-factory>
 </hibernate-configuration>
