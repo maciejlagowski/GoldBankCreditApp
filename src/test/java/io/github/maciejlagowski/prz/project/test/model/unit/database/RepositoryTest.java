@@ -10,7 +10,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,7 +38,7 @@ public class RepositoryTest {
     public void test2Client() {
         List<Income> incomes = incomeRepo.readAllRecords();
         Client client = new Client(1L, "ForenameTest", "SurnameTest",
-                "AddressTest", 88051697473L, incomes);
+                "AddressTest", 88051697473L, incomes, new LinkedList<Credit>());
         clientRepo.createRecord(client);
         Client clientFromDb = clientRepo.findRecordById(1L);
         Assert.assertEquals(client.getId(), clientFromDb.getId());
@@ -66,7 +65,7 @@ public class RepositoryTest {
         Date date = new Date(System.currentTimeMillis());
         Date date1 = new Date(System.currentTimeMillis() + 50000);
         Credit credit = new Credit(1L, account, 200000.0, 110000.0,4.3,
-                date, date1, null, false, CreditType.MORTGAGE);
+                date, date1, null, false, CreditType.MORTGAGE, 200.0, false);
         creditRepo.createRecord(credit);
         Credit creditFromDb = creditRepo.findRecordById(1L);
         Assert.assertEquals(credit.getId(), creditFromDb.getId());
@@ -84,7 +83,7 @@ public class RepositoryTest {
         List<Client> clients = new LinkedList<>();
         clients.add(client);
         CreditApplication application = new CreditApplication(1L,
-                new Date(System.currentTimeMillis()), clients, 30000.0, Risk.MEDIUM, null);
+                new Date(System.currentTimeMillis()), clients, 30000.0, Risk.MEDIUM, null, CreditType.MORTGAGE);
         creditApplicationRepo.createRecord(application);
         CreditApplication applicationFromDb = creditApplicationRepo.findRecordById(1L);
         Assert.assertEquals(application.getId(), applicationFromDb.getId());

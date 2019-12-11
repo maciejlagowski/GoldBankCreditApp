@@ -1,11 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-
-
-<AnchorPane prefHeight="109.0" prefWidth="223.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <CheckBox layoutX="62.0" layoutY="37.0" mnemonicParsing="false" text="CheckBox" />
-   </children>
-</AnchorPane>
+<?import javafx.scene.text.Font?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            fx:controller="io.github.maciejlagowski.prz.project.controller.FrameController">
+    <left>
+        <FlowPane orientation="VERTICAL" prefHeight="534.0" prefWidth="280.0" style="-fx-background-color: #E0E0E0"
+                  BorderPane.alignment="CENTER">
+            <children>
+                <Hyperlink prefHeight="39.0" prefWidth="240.0" text="Hyperlink"/>
+            </children>
+        </FlowPane>
+    </left>
+    <bottom>
+        <ButtonBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #E0E0E0"
+                   BorderPane.alignment="CENTER">
+            <buttons>
+                <Button fx:id="nextButton" mnemonicParsing="false" onAction="#onNextButtonClick" text="Next"/>
+            </buttons>
+        </ButtonBar>
+    </bottom>
+    <center>
+        <FlowPane fx:id="contentPane" alignment="CENTER" hgap="20.0" orientation="VERTICAL" prefHeight="534.0"
+                  prefWidth="761.0" vgap="20.0" BorderPane.alignment="CENTER"/>
+    </center>
+    <top>
+        <SplitPane dividerPositions="0.40816326530612246" orientation="VERTICAL" prefHeight="100.0" prefWidth="1024.0"
+                   BorderPane.alignment="CENTER">
+            <items>
+                <FlowPane alignment="CENTER_RIGHT" hgap="15.0" prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <Label fx:id="loggedAsLabel" text="Logged as: XXXXXXX XXXXXXXXX">
+                            <font>
+                                <Font size="21.0"/>
+                            </font>
+                        </Label>
+                        <Hyperlink fx:id="logoutLink" alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Logout">
+                            <font>
+                                <Font size="21.0"/>
+                            </font>
+                        </Hyperlink>
+                    </children>
+                </FlowPane>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <ImageView fitHeight="100.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="/img/logo.png"/>
+                            </image>
+                        </ImageView>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="168.0" layoutY="7.0"
+                               text="Gold Bank">
+                            <font>
+                                <Font name="TeXGyreAdventor-Bold" size="52.0"/>
+                            </font>
+                        </Label>
+                        <Label layoutX="301.0" layoutY="66.0" text="A bank you can trust" underline="true"/>
+                        <Label layoutX="698.0" layoutY="22.0" text="Automatic Decision &#10;Credit Application">
+                            <font>
+                                <Font name="Source Code Pro Black" size="21.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </top>
+</BorderPane>

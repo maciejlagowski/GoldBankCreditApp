@@ -1,7 +1,10 @@
 package io.github.maciejlagowski.prz.project.model.database.entity;
 
+import io.github.maciejlagowski.prz.project.model.enums.CreditType;
 import io.github.maciejlagowski.prz.project.model.enums.Risk;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,4 +26,5 @@ public class CreditApplication {
     private Risk risk;
     @OneToOne
     private Credit credit;
+    private CreditType type;
 }

@@ -1,6 +1,9 @@
 package io.github.maciejlagowski.prz.project.model.database.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.*;
 import java.util.List;
@@ -24,6 +27,6 @@ public class Client {
     private Long pesel;
     @OneToMany
     private List<Income> incomes;
-//    @OneToMany
-//    private List<Credit> credits;
+    @OneToMany
+    private List<Credit> credits;
 }

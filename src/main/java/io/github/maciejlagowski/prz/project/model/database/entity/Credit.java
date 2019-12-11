@@ -1,7 +1,9 @@
 package io.github.maciejlagowski.prz.project.model.database.entity;
 
 import io.github.maciejlagowski.prz.project.model.enums.CreditType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,4 +27,6 @@ public class Credit {
     private Date actualRepaymentDate;
     private Boolean isPaidOff;
     private CreditType type;
+    private Double installment;
+    private Boolean isDefault;
 }

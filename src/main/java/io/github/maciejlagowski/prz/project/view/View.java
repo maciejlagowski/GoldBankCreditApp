@@ -1,8 +1,10 @@
 package io.github.maciejlagowski.prz.project.view;
 
-public class View {
+import javafx.scene.Node;
 
-    public String getName() {
-        return this.getClass().getSimpleName().toLowerCase();
-    }
+import java.util.List;
+
+public interface View {
+
+    List<Node> createContent();
 }
