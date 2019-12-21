@@ -1,4 +1,4 @@
-package io.github.maciejlagowski.prz.project.test.model.unit.database;
+package io.github.maciejlagowski.prz.project.test.unit.database;
 
 import io.github.maciejlagowski.prz.project.model.database.entity.*;
 import io.github.maciejlagowski.prz.project.model.database.repository.*;
@@ -64,7 +64,7 @@ public class RepositoryTest {
         Account account = accountRepo.findRecordById(1L);
         Date date = new Date(System.currentTimeMillis());
         Date date1 = new Date(System.currentTimeMillis() + 50000);
-        Credit credit = new Credit(1L, account, 200000.0, 110000.0,4.3,
+        Credit credit = new Credit(1L, account, 200000.0, 110000.0, 4.3,
                 date, date1, null, false, CreditType.MORTGAGE, 200.0, false);
         creditRepo.createRecord(credit);
         Credit creditFromDb = creditRepo.findRecordById(1L);

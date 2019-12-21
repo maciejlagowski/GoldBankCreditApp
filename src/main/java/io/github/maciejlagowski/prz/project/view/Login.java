@@ -3,6 +3,7 @@ package io.github.maciejlagowski.prz.project.view;
 import com.dlsc.formsfx.model.structure.Field;
 import com.dlsc.formsfx.model.structure.Form;
 import com.dlsc.formsfx.model.structure.Group;
+import com.dlsc.formsfx.model.structure.PasswordField;
 import com.dlsc.formsfx.view.renderer.FormRenderer;
 import io.github.maciejlagowski.prz.project.controller.LoginController;
 import javafx.scene.Node;
@@ -28,7 +29,7 @@ public class Login implements View {
                 Field.ofStringType(controller.getUsernameProperty())
                         .label("Username")
                         .required("This field cannot be empty"),
-                Field.ofStringType(controller.getPasswordProperty())
+                PasswordField.ofStringType(controller.getPasswordProperty())
                         .label("Password")
                         .required("This field cannot be empty")
         )).title("Login");

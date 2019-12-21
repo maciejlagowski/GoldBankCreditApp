@@ -20,17 +20,17 @@ class Bik {
     }
 
     private boolean isDefault(List<BikLiability> liabilities) {
-        boolean isDefault = false;
         for (BikLiability liability : liabilities) {
             if (liability.getIsDefault()) {
-                isDefault = true;
-                break;
+                return true;
             }
         }
-        return isDefault;
+        return false;
     }
 
     private Risk calculateLiabilitiesRisk(List<BikLiability> liabilities) {
+        final double PTA_RATIO_HIGH = 0.7;
+        final double PTA_RATIO_MEDIUM = 0.4;
         int paidOff = 0;
         for (BikLiability liability : liabilities) {
             if (liability.getIsPaidOff()) {
@@ -38,9 +38,9 @@ class Bik {
             }
         }
         double paidToAll = paidOff / (double) liabilities.size();
-        if (paidToAll > 0.7) {
+        if (paidToAll > PTA_RATIO_HIGH) {
             return Risk.LOW;
-        } else if (paidToAll > 0.4) {
+        } else if (paidToAll > PTA_RATIO_MEDIUM) {
             return Risk.MEDIUM;
         } else {
             return Risk.HIGH;

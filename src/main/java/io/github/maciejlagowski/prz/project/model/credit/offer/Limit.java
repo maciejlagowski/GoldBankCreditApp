@@ -6,7 +6,7 @@ import io.github.maciejlagowski.prz.project.model.enums.Risk;
 
 class Limit {
 
-    Double calculateLimit(CreditApplication application) {
+    double calculateLimit(CreditApplication application) {
         switch (application.getType()) {
             case MORTGAGE:
                 return calculateLimitMortgage(application.getRisk());
@@ -18,7 +18,7 @@ class Limit {
         throw new IllegalArgumentException("Type \"" + application.getType() + "\" is not valid application type");
     }
 
-    private Double calculateLimitMortgage(Risk risk) {
+    private double calculateLimitMortgage(Risk risk) {
         switch (risk) {
             case LOW:
                 return 600000.0;
@@ -30,7 +30,7 @@ class Limit {
         throw new IllegalArgumentException("Risk \"" + risk + "\" is not valid risk type");
     }
 
-    private Double calculateLimitRetail(Risk risk) {
+    private double calculateLimitRetail(Risk risk) {
         switch (risk) {
             case LOW:
                 return 100000.0;
@@ -42,7 +42,7 @@ class Limit {
         throw new IllegalArgumentException("Risk \"" + risk + "\" is not valid risk type");
     }
 
-    private Double calculateLimitEntrepreneur(Risk risk) {
+    private double calculateLimitEntrepreneur(Risk risk) {
         switch (risk) {
             case LOW:
                 return 250000.0;

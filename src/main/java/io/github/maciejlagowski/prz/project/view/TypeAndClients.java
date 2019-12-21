@@ -12,8 +12,6 @@ import javafx.scene.layout.Pane;
 import java.util.LinkedList;
 import java.util.List;
 
-import static io.github.maciejlagowski.prz.project.model.tools.Helpers.capitalizeString;
-
 public class TypeAndClients implements View {
 
     private TypeAndClientsController controller = TypeAndClientsController.getInstance();
@@ -26,10 +24,7 @@ public class TypeAndClients implements View {
     }
 
     private Node createTypeForm() {
-        List<String> types = new LinkedList<>();
-        for (CreditType type : CreditType.values()) {
-            types.add(capitalizeString(type.name()));
-        }
+        List<String> types = CreditType.getAll();
         Form typeForm = Form.of(Group.of(
                 Field.ofSingleSelectionType(
                         types, 1

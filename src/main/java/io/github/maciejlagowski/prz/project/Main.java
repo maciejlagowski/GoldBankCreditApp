@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     public static void main(String[] args) {
-        System.out.println("dupa");
         launch(args);
     }
 
@@ -17,6 +16,5 @@ public class Main extends Application {
     public void start(Stage stage) {
         new Frame().showStage();
         FrameController.getInstance().changeView(new Login());
-        System.out.println("dupa");
     }
 }

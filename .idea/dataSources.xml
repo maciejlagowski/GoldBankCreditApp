@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="hibernate.cfg.xml/Hibernate" uuid="e78698ab-c2b4-4642-9632-d6eec01a563e">
+    <data-source source="LOCAL" name="hibernate.cfg.xml/Hibernate" uuid="6d599f91-08a7-4a0a-9fd5-c879a109d3b3">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
       <remarks>Hibernate
 
-/home/maciek/IdeaProjects/GoldBankCreditApp/src/main/resources/hibernate.cfg.xml</remarks>
+/home/maciek/IdeaProjects/GoldBankCredit/src/main/resources/hibernate.cfg.xml</remarks>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/goldBank?useTimezone=true&amp;serverTimezone=UTC</jdbc-url>
     </data-source>

@@ -12,27 +12,27 @@ import java.util.List;
 
 class Capacity {
 
-    Double calculateCapacity(CreditApplication application) {
-        Double capacity = 0.0;
+    double calculateCapacity(CreditApplication application) {
+        double capacity = 0.0;
         for (Client client : application.getClients()) {
             capacity += calculateClientCapacity(client);
         }
         return capacity;
     }
 
-    private Double calculateClientCapacity(Client client) {
-        Double incomes = calculateClientIncomes(client.getIncomes());
-        Double liabilities = calculateClientLiabilities(client.getCredits());
+    private double calculateClientCapacity(Client client) {
+        double incomes = calculateClientIncomes(client.getIncomes());
+        double liabilities = calculateClientLiabilities(client.getCredits());
         liabilities += calculateBikLiabilities(new BikApi("123456789").getBikReport(client.getPesel()));
         return incomes - liabilities;
     }
 
-    private Double calculateClientIncomes(List<Income> incomes) {
+    private double calculateClientIncomes(List<Income> incomes) {
         return incomes.stream().mapToDouble(Income::getAmount).sum();
     }
 
-    private Double calculateClientLiabilities(List<Credit> liabilities) {
-        Double sum = 0.0;
+    private double calculateClientLiabilities(List<Credit> liabilities) {
+        double sum = 0.0;
         for (Credit liability : liabilities) {
             if (!liability.getIsPaidOff()) {
                 sum += liability.getInstallment();
@@ -41,8 +41,8 @@ class Capacity {
         return sum;
     }
 
-    private Double calculateBikLiabilities(BikReport report) {
-        Double sum = 0.0;
+    private double calculateBikLiabilities(BikReport report) {
+        double sum = 0.0;
         for (BikLiability liability : report.getLiabilities()) {
             if (!liability.getIsPaidOff()) {
                 sum += liability.getInstallment();

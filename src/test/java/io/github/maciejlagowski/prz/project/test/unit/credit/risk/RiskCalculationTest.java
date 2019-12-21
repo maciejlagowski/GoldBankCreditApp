@@ -1,4 +1,4 @@
-package io.github.maciejlagowski.prz.project.test.model.unit.credit.risk;
+package io.github.maciejlagowski.prz.project.test.unit.credit.risk;
 
 import io.github.maciejlagowski.prz.project.model.credit.risk.Incomes;
 import io.github.maciejlagowski.prz.project.model.database.entity.Income;

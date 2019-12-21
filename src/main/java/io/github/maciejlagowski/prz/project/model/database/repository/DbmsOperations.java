@@ -20,7 +20,7 @@ class DbmsOperations {
             config.addAnnotatedClass(Credit.class);
             config.addAnnotatedClass(CreditApplication.class);
             config.addAnnotatedClass(Income.class);
-            config.configure("hibernate.cfg.xml");
+            config.configure("/hibernate.cfg.xml");
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
             sessionFactory = config.buildSessionFactory(serviceRegistry);
         }

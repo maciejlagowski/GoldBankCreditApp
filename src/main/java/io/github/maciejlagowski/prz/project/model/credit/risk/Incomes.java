@@ -8,10 +8,6 @@ import java.util.List;
 
 public class Incomes {
 
-    private final Double AVERAGE_COUNTRY_INCOME = 2500.0;
-    private final Double HIGH_INCOME_MULTIPLIER = 2.0;
-    private final Double LOW_INCOME_MULTIPLIER = 0.5;
-
     public Risk calculateRisk(List<Income> incomes) {
         List<Risk> incomeRisks = new LinkedList<>();
         incomes.forEach(income -> incomeRisks.add(calculateIncomeRisk(income)));
@@ -26,6 +22,9 @@ public class Incomes {
     }
 
     private Risk calculateIncomeAmountToAverageRisk(Double incomeAmount) {
+        final double AVERAGE_COUNTRY_INCOME = 2500.0;
+        final double HIGH_INCOME_MULTIPLIER = 2.0;
+        final double LOW_INCOME_MULTIPLIER = 0.5;
         if (incomeAmount > AVERAGE_COUNTRY_INCOME * HIGH_INCOME_MULTIPLIER) {
             return Risk.LOW;
         } else if (incomeAmount < AVERAGE_COUNTRY_INCOME * LOW_INCOME_MULTIPLIER) {
