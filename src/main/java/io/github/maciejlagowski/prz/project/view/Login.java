@@ -8,20 +8,36 @@ import com.dlsc.formsfx.view.renderer.FormRenderer;
 import io.github.maciejlagowski.prz.project.controller.LoginController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import lombok.NoArgsConstructor;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@NoArgsConstructor
 public class Login implements View {
 
     private LoginController controller = LoginController.getInstance();
+    private String message = "";
+
+    public Login(String message) {
+        this.message = message;
+    }
 
     public List<Node> createContent() {
         return new LinkedList<>(List.of(
                 createLoginForm(),
+                createErrorMessage(),
                 createLoginButton()
         ));
+    }
+
+    private Node createErrorMessage() {
+        Label label = new Label(message);
+        label.setTextFill(Color.web("#FF0000"));
+        return label;
     }
 
     private Node createLoginForm() {

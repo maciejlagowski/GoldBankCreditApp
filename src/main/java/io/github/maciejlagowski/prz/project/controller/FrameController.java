@@ -1,6 +1,7 @@
 package io.github.maciejlagowski.prz.project.controller;
 
 import io.github.maciejlagowski.prz.project.view.View;
+import io.github.maciejlagowski.prz.project.view.ViewEnum;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,12 +22,22 @@ public class FrameController implements Controller {
     }
 
     public void onNextButtonClick(ActionEvent event) {
-        contentPane.getChildren().clear();
-//        contentPane.getChildren().addAll(new Login().createContent());
+        //TODO interfejs onNextButton
+        switch (ViewEnum.getActualView()) {
+            case TYPE_AND_CLIENTS:
+                TypeAndClientsController.getInstance().onNextButtonClick();
+                break;
+            case REQUESTED_AMOUNT:
+                RequestedAmountController.getInstance().onNextButtonClick();
+                break;
+            default:
+                System.err.println("Button should be inactive here!");
+        }
     }
 
     public void changeView(View view) {
         contentPane.getChildren().clear();
         contentPane.getChildren().addAll(view.createContent());
+        ViewEnum.setActualView(view);
     }
 }

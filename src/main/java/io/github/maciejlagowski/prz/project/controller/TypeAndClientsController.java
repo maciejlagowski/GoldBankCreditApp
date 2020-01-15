@@ -1,21 +1,38 @@
 package io.github.maciejlagowski.prz.project.controller;
 
-import com.dlsc.formsfx.model.structure.Form;
-import io.github.maciejlagowski.prz.project.view.Home;
+import io.github.maciejlagowski.prz.project.model.credit.Application;
+import io.github.maciejlagowski.prz.project.model.database.entity.Client;
+import io.github.maciejlagowski.prz.project.model.enums.CreditType;
+import io.github.maciejlagowski.prz.project.view.AddClient;
+import io.github.maciejlagowski.prz.project.view.RequestedAmount;
+import io.github.maciejlagowski.prz.project.view.Wait;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.Setter;
-import org.mindrot.jbcrypt.BCrypt;
 
 public class TypeAndClientsController implements Controller {
 
     private static TypeAndClientsController instance;
+
+
     @Getter
-    private SimpleStringProperty usernameProperty = new SimpleStringProperty("");
+    private SimpleStringProperty forenameProperty = new SimpleStringProperty("");
     @Getter
-    private SimpleStringProperty passwordProperty = new SimpleStringProperty("");
+    private SimpleStringProperty surnameProperty = new SimpleStringProperty("");
+    @Getter
+    private SimpleStringProperty addressProperty = new SimpleStringProperty("");
+    @Getter
+    private SimpleStringProperty peselProperty = new SimpleStringProperty("");
     @Setter
-    private Form loginForm;
+    private CreditType creditType;
+
+    @Getter
+    @Setter
+    private ObservableList<Client> clients = FXCollections.observableArrayList();
+    //TODO usuwanie klientow z listy
 
     private TypeAndClientsController() {
     }
@@ -27,20 +44,19 @@ public class TypeAndClientsController implements Controller {
         return instance;
     }
 
-    public void onLoginButtonClick() {
-        loginForm.persist();
-        if (login(usernameProperty.get(), passwordProperty.get())) {
-            FrameController.getInstance().changeView(new Home());
-        } else {
-            //TODO msg on view not valid credentials
-            System.err.println("not valid cred");
-        }
+    public void onNextButtonClick() {
+        Platform.runLater(() -> FrameController.getInstance().changeView(new Wait()));
+        new Thread(() -> {
+            Application.setApplicationInstance(
+                    new Application()
+                            .setCreditType(creditType)
+                            .setClients(clients)
+            );
+            Platform.runLater(() -> FrameController.getInstance().changeView(new RequestedAmount()));
+        }).start();
     }
 
-    private boolean login(String formUsername, String formPassword) {
-        final String SALT = BCrypt.gensalt();
-        final String USERNAME = "admin";
-        final String PASSWORD = BCrypt.hashpw("admin", SALT);
-        return formUsername.equals(USERNAME) && BCrypt.checkpw(formPassword, PASSWORD);
+    public void onAddClientButtonClick() {
+        new AddClient().showStage();
     }
 }

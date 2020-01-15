@@ -10,8 +10,6 @@ import java.io.IOException;
 
 public class Frame {
 
-//    private static FrameController frameController;
-
     public void showStage() {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -28,8 +26,4 @@ public class Frame {
             //TODO logger
         }
     }
-
-//    public static FrameController getFrameController() {
-//        return frameController;
-//    }
 }

@@ -2,6 +2,9 @@ package io.github.maciejlagowski.prz.project.controller;
 
 import com.dlsc.formsfx.model.structure.Form;
 import io.github.maciejlagowski.prz.project.view.Home;
+import io.github.maciejlagowski.prz.project.view.Login;
+import io.github.maciejlagowski.prz.project.view.Wait;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,15 +32,22 @@ public class LoginController implements Controller {
 
     public void onLoginButtonClick() {
         loginForm.persist();
-        if (login(usernameProperty.get(), passwordProperty.get())) {
-            FrameController.getInstance().changeView(new Home());
-        } else {
-            //TODO msg on view not valid credentials
-            System.err.println("not valid cred");
-        }
+        Platform.runLater(() -> FrameController.getInstance().changeView(new Wait()));
+        new Thread(() -> {
+            if (login(usernameProperty.get(), passwordProperty.get())) {
+                Platform.runLater(() -> FrameController.getInstance().changeView(new Home()));
+            } else {
+                Platform.runLater(() -> FrameController.getInstance().changeView(new Login("Not valid credentials")));
+            }
+        }).start();
     }
 
     private boolean login(String formUsername, String formPassword) {
+        try {   //TODO from DB, now only simulates sleep
+            Thread.sleep(800);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         final String SALT = BCrypt.gensalt();
         final String USERNAME = "admin";
         final String PASSWORD = BCrypt.hashpw("admin", SALT);
