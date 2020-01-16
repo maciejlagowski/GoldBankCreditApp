@@ -1,6 +1,9 @@
 package io.github.maciejlagowski.prz.project.model.database.repository;
 
-import io.github.maciejlagowski.prz.project.model.database.entity.*;
+import io.github.maciejlagowski.prz.project.model.database.entity.Client;
+import io.github.maciejlagowski.prz.project.model.database.entity.Credit;
+import io.github.maciejlagowski.prz.project.model.database.entity.CreditApplication;
+import io.github.maciejlagowski.prz.project.model.database.entity.Income;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -15,7 +18,6 @@ class DbmsOperations {
     synchronized static Session getSession() {
         if (sessionFactory == null) {
             Configuration config = new Configuration();
-            config.addAnnotatedClass(Account.class);
             config.addAnnotatedClass(Client.class);
             config.addAnnotatedClass(Credit.class);
             config.addAnnotatedClass(CreditApplication.class);

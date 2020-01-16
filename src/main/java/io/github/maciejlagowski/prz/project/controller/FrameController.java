@@ -1,5 +1,6 @@
 package io.github.maciejlagowski.prz.project.controller;
 
+import io.github.maciejlagowski.prz.project.view.Home;
 import io.github.maciejlagowski.prz.project.view.View;
 import io.github.maciejlagowski.prz.project.view.ViewEnum;
 import javafx.event.ActionEvent;
@@ -8,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import lombok.Setter;
 
-public class FrameController implements Controller {
+public class FrameController {
 
     @Setter
     private static FrameController instance;
@@ -27,8 +28,8 @@ public class FrameController implements Controller {
             case TYPE_AND_CLIENTS:
                 TypeAndClientsController.getInstance().onNextButtonClick();
                 break;
-            case REQUESTED_AMOUNT:
-                RequestedAmountController.getInstance().onNextButtonClick();
+            case REQUESTED_PERIOD:
+                RequestedPeriodController.getInstance().onNextButtonClick();
                 break;
             default:
                 System.err.println("Button should be inactive here!");
@@ -39,5 +40,9 @@ public class FrameController implements Controller {
         contentPane.getChildren().clear();
         contentPane.getChildren().addAll(view.createContent());
         ViewEnum.setActualView(view);
+    }
+
+    public void onBackToMenuButtonClick(ActionEvent event) {
+        changeView(new Home());
     }
 }

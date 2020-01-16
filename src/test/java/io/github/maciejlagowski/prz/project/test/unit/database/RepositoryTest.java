@@ -1,6 +1,9 @@
 package io.github.maciejlagowski.prz.project.test.unit.database;
 
-import io.github.maciejlagowski.prz.project.model.database.entity.*;
+import io.github.maciejlagowski.prz.project.model.database.entity.Client;
+import io.github.maciejlagowski.prz.project.model.database.entity.Credit;
+import io.github.maciejlagowski.prz.project.model.database.entity.CreditApplication;
+import io.github.maciejlagowski.prz.project.model.database.entity.Income;
 import io.github.maciejlagowski.prz.project.model.database.repository.*;
 import io.github.maciejlagowski.prz.project.model.enums.CreditType;
 import io.github.maciejlagowski.prz.project.model.enums.Industry;
@@ -17,7 +20,6 @@ import java.util.List;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RepositoryTest {
 
-    private CrudRepository<Account> accountRepo = new AccountRepository();
     private CrudRepository<Client> clientRepo = new ClientRepository();
     private CrudRepository<Credit> creditRepo = new CreditRepository();
     private CrudRepository<CreditApplication> creditApplicationRepo = new CreditApplicationRepository();
@@ -38,7 +40,7 @@ public class RepositoryTest {
     public void test2Client() {
         List<Income> incomes = incomeRepo.readAllRecords();
         Client client = new Client(1L, "ForenameTest", "SurnameTest",
-                "AddressTest", 88051697473L, incomes, new LinkedList<Credit>());
+                "AddressTest", 88051697473L, incomes, new LinkedList<>());
         clientRepo.createRecord(client);
         Client clientFromDb = clientRepo.findRecordById(1L);
         Assert.assertEquals(client.getId(), clientFromDb.getId());
@@ -50,21 +52,10 @@ public class RepositoryTest {
     }
 
     @Test
-    public void test3Account() {
-        Client client = clientRepo.findRecordById(1L);
-        Account account = new Account(1L, client, 15.20);
-        accountRepo.createRecord(account);
-        Account accountFromDb = accountRepo.findRecordById(1L);
-        Assert.assertEquals(account.getId(), accountFromDb.getId());
-        Assert.assertEquals(account.getBalance(), accountFromDb.getBalance());
-    }
-
-    @Test
-    public void test4Credit() {
-        Account account = accountRepo.findRecordById(1L);
+    public void test3Credit() {
         Date date = new Date(System.currentTimeMillis());
         Date date1 = new Date(System.currentTimeMillis() + 50000);
-        Credit credit = new Credit(1L, account, 200000.0, 110000.0, 4.3,
+        Credit credit = new Credit(1L, 200000.0, 110000.0, 4.3,
                 date, date1, null, false, CreditType.MORTGAGE, 200.0, false);
         creditRepo.createRecord(credit);
         Credit creditFromDb = creditRepo.findRecordById(1L);
@@ -78,18 +69,18 @@ public class RepositoryTest {
     }
 
     @Test
-    public void test5CreditApplication() {
+    public void test4CreditApplication() {
         Client client = clientRepo.findRecordById(1L);
         List<Client> clients = new LinkedList<>();
         clients.add(client);
         CreditApplication application = new CreditApplication(1L,
-                new Date(System.currentTimeMillis()), clients, 30000.0, Risk.MEDIUM, null, CreditType.MORTGAGE);
+                new Date(System.currentTimeMillis()), clients, 12, Risk.MEDIUM, null, CreditType.MORTGAGE);
         creditApplicationRepo.createRecord(application);
         CreditApplication applicationFromDb = creditApplicationRepo.findRecordById(1L);
         Assert.assertEquals(application.getId(), applicationFromDb.getId());
 //        Assert.assertEquals(application.getApplicationDate(), applicationFromDb.getApplicationDate());
         //TODO date format is different
-        Assert.assertEquals(application.getRequestedAmount(), applicationFromDb.getRequestedAmount());
+        Assert.assertEquals(application.getRequestedPeriod(), applicationFromDb.getRequestedPeriod());
         Assert.assertEquals(application.getRisk(), applicationFromDb.getRisk());
     }
 }

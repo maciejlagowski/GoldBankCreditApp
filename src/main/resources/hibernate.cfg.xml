@@ -13,7 +13,7 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/goldBank?useTimezone=true&amp;serverTimezone=UTC</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">maciek</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
 
         <!-- Specifying Session Context -->

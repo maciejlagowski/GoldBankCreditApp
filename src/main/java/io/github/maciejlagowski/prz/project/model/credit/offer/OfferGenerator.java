@@ -1,29 +1,39 @@
 package io.github.maciejlagowski.prz.project.model.credit.offer;
 
-import io.github.maciejlagowski.prz.project.model.database.entity.Credit;
 import io.github.maciejlagowski.prz.project.model.database.entity.CreditApplication;
-
-import java.util.LinkedList;
-import java.util.List;
+import lombok.Getter;
 
 public class OfferGenerator {
 
     private CreditApplication application;
-    private List<Credit> offers = new LinkedList<>();
+    @Getter
+    private Double limit;
+    @Getter
+    private Double capacity;
 
     public OfferGenerator(CreditApplication application) {
         this.application = application;
     }
 
-    public List<Credit> generateOffers() {
-        Double limit = new Limit().calculateLimit(application);
-        Double capacity = new Capacity().calculateCapacity(application);
+    public OfferGenerator generateOffers() {
+        limit = new Limit().calculateLimit(application);
+        capacity = new Capacity().calculateCapacity(application);
 
         //TODO jakos ten suwak
-        return null;
+        return this;
     }
 
     private Double calculateMargin() {
         return 0.0;
+    }
+
+    public Double calculateMinInstallment(Double creditAmount) {
+        Integer period = application.getRequestedPeriod();
+        return creditAmount / period;
+
+    }
+
+    public Double calculateMaxInstallment(Double creditAmount) {
+        return creditAmount / 3;
     }
 }

@@ -10,6 +10,10 @@ public class Incomes {
 
     public Risk calculateRisk(List<Income> incomes) {
         List<Risk> incomeRisks = new LinkedList<>();
+        if (incomes.isEmpty()) {
+            System.out.println("dd");
+            return Risk.DEFAULT;
+        }
         incomes.forEach(income -> incomeRisks.add(calculateIncomeRisk(income)));
         return Risk.getBestRisk(incomeRisks);
     }

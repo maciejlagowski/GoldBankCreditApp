@@ -2,13 +2,25 @@ package io.github.maciejlagowski.prz.project.controller;
 
 import com.dlsc.formsfx.model.structure.Form;
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
+import io.github.maciejlagowski.prz.project.model.database.entity.Income;
+import io.github.maciejlagowski.prz.project.model.database.repository.ClientRepository;
+import io.github.maciejlagowski.prz.project.view.Error;
+import io.github.maciejlagowski.prz.project.view.Wait;
+import io.github.maciejlagowski.prz.project.view.clients.ManageClients;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedList;
+import java.util.List;
 
-public class AddClientController implements Controller {
+public class AddClientController {
 
     private static AddClientController instance;
     @Getter
@@ -21,6 +33,19 @@ public class AddClientController implements Controller {
     private SimpleStringProperty peselProperty = new SimpleStringProperty("");
     @Setter
     private Form clientForm;
+    @Getter
+    private ObservableList<Income> incomes = FXCollections.observableArrayList();
+
+
+    @Getter
+    @Setter
+    private Stage stage;
+    @Getter
+    @Setter
+    private ListView<Income> incomeListView;
+    @Getter
+    private Label incomesSum = new Label("Incomes sum: 0.0");
+
 
     private AddClientController() {
     }
@@ -32,10 +57,28 @@ public class AddClientController implements Controller {
         return instance;
     }
 
-    public void onAddClientButtonClick() {
+    public void onAddClientButtonClick() throws Error {
         clientForm.persist();
-        Client client = new Client(null, forenameProperty.get(), surnameProperty.get(),
-                addressProperty.get(), Long.parseLong(peselProperty.get()), new LinkedList<>(), new LinkedList<>());
-        TypeAndClientsController.getInstance().getClients().add(client);
+        try {
+            Client client = new Client(null, forenameProperty.get(), surnameProperty.get(),
+                    addressProperty.get(), Long.parseLong(peselProperty.get()), incomes, new LinkedList<>());
+            Platform.runLater(() -> FrameController.getInstance().changeView(new Wait()));
+            new Thread(() -> {
+                ClientRepository clientRepository = new ClientRepository();
+                clientRepository.createRecord(client);
+                List<Client> clients = clientRepository.readAllRecords();
+                Platform.runLater(() -> FrameController.getInstance().changeView(new ManageClients(clients)));
+            }).start();
+        } catch (NumberFormatException e) {
+            throw new Error("PESEL not valid");
+        }
+    }
+
+    public void recalculateIncomesSum() {
+        Double sum = 0.0;
+        for (Income income : incomes) {
+            sum += income.getAmount();
+        }
+        incomesSum.setText("Incomes sum: " + sum);
     }
 }

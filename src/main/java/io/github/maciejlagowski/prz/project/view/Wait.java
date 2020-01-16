@@ -20,7 +20,6 @@ public class Wait implements View {
     private Node createWaitAnimation() {
         Pane pane = new FlowPane();
         pane.getChildren().add(new ProgressIndicator());
-//        Label label = new Label("Please wait...")
         pane.getChildren().add(new Label("   Please wait.."));
         return pane;
     }

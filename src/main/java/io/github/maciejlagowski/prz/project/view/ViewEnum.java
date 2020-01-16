@@ -3,7 +3,7 @@ package io.github.maciejlagowski.prz.project.view;
 import io.github.maciejlagowski.prz.project.model.tools.Helpers;
 
 public enum ViewEnum {
-    FRAME, HOME, LOGIN, TYPE_AND_CLIENTS, WAIT, REQUESTED_AMOUNT;
+    FRAME, HOME, LOGIN, TYPE_AND_CLIENTS, WAIT, REQUESTED_PERIOD, MANAGE_CLIENTS, OFFER;
 
     private static ViewEnum actualView;
 

@@ -3,36 +3,29 @@ package io.github.maciejlagowski.prz.project.controller;
 import io.github.maciejlagowski.prz.project.model.credit.Application;
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
 import io.github.maciejlagowski.prz.project.model.enums.CreditType;
-import io.github.maciejlagowski.prz.project.view.AddClient;
-import io.github.maciejlagowski.prz.project.view.RequestedAmount;
 import io.github.maciejlagowski.prz.project.view.Wait;
+import io.github.maciejlagowski.prz.project.view.credit.RequestedPeriod;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import lombok.Getter;
-import lombok.Setter;
+import javafx.scene.control.ListView;
+import lombok.Data;
 
-public class TypeAndClientsController implements Controller {
+@Data
+public class TypeAndClientsController {
 
     private static TypeAndClientsController instance;
 
-
-    @Getter
     private SimpleStringProperty forenameProperty = new SimpleStringProperty("");
-    @Getter
     private SimpleStringProperty surnameProperty = new SimpleStringProperty("");
-    @Getter
     private SimpleStringProperty addressProperty = new SimpleStringProperty("");
-    @Getter
     private SimpleStringProperty peselProperty = new SimpleStringProperty("");
-    @Setter
     private CreditType creditType;
-
-    @Getter
-    @Setter
-    private ObservableList<Client> clients = FXCollections.observableArrayList();
-    //TODO usuwanie klientow z listy
+    private ObservableList<Client> clientsFromDb;
+    private ObservableList<Client> clientsChosen = FXCollections.observableArrayList();
+    private ListView<Client> clientsFromDbListView;
+    private ListView<Client> clientsChosenListView;
 
     private TypeAndClientsController() {
     }
@@ -50,13 +43,21 @@ public class TypeAndClientsController implements Controller {
             Application.setApplicationInstance(
                     new Application()
                             .setCreditType(creditType)
-                            .setClients(clients)
+                            .setClients(clientsChosen)
             );
-            Platform.runLater(() -> FrameController.getInstance().changeView(new RequestedAmount()));
+            Platform.runLater(() -> FrameController.getInstance().changeView(new RequestedPeriod()));
         }).start();
     }
 
     public void onAddClientButtonClick() {
-        new AddClient().showStage();
+        Client client = clientsFromDbListView.getSelectionModel().getSelectedItem();
+        if (!clientsChosen.contains(client)) {
+            clientsChosen.add(client);
+        }
+    }
+
+    public void onRemoveClientButtonClick() {
+        Client client = clientsChosenListView.getSelectionModel().getSelectedItem();
+        clientsChosen.remove(client);
     }
 }

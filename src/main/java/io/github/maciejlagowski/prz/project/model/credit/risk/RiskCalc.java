@@ -11,6 +11,10 @@ public class RiskCalc {
 
     public Risk calculateRisk(List<Client> clients) {
         List<Risk> clientsRisk = new LinkedList<>();
+        if (clients.isEmpty()) {
+            System.out.println("bb");
+            return Risk.DEFAULT;
+        }
         clients.forEach(client -> clientsRisk.add(calculateClientRisk(client)));
         return Risk.getBestRisk(clientsRisk);
     }

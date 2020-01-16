@@ -25,8 +25,8 @@ public class Client {
     private String address;
     @NonNull
     private Long pesel;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Income> incomes;
-    @OneToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Credit> credits;
 }

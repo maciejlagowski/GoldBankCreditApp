@@ -26,6 +26,8 @@ class Limit {
                 return 250000.0;
             case HIGH:
                 return 120000.0;
+            case DEFAULT:
+                return 0.0;
         }
         throw new IllegalArgumentException("Risk \"" + risk + "\" is not valid risk type");
     }
@@ -38,6 +40,8 @@ class Limit {
                 return 40000.0;
             case HIGH:
                 return 8000.0;
+            case DEFAULT:
+                return 0.0;
         }
         throw new IllegalArgumentException("Risk \"" + risk + "\" is not valid risk type");
     }
@@ -50,6 +54,8 @@ class Limit {
                 return 120000.0;
             case HIGH:
                 return 50000.0;
+            case DEFAULT:
+                return 0.0;
         }
         throw new IllegalArgumentException("Risk \"" + risk + "\" is not valid risk type");
     }

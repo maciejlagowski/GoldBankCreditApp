@@ -20,9 +20,9 @@ public class CreditApplication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date applicationDate;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Client> clients;
-    private Double requestedAmount;
+    private Integer requestedPeriod;
     private Risk risk;
     @OneToOne
     private Credit credit;

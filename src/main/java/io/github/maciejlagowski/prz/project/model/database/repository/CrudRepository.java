@@ -58,7 +58,7 @@ public interface CrudRepository <T> {
         T foundRecord = null;
         try {
             session.beginTransaction();
-            foundRecord = (T) session.load(this.getEntityType(), id);
+            foundRecord = (T) session.get(this.getEntityType(), id);
 //            session.getTransaction().commit();
         } catch (Exception sqlException) {
             if(session.getTransaction() != null) {
@@ -75,7 +75,21 @@ public interface CrudRepository <T> {
     }
 
     default void updateRecord(T object) {
-        //TODO
+        Session session = DbmsOperations.getSession();
+        try {
+            session.beginTransaction();
+            session.update(object);
+            session.getTransaction().commit();
+        } catch (Exception sqlException) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            sqlException.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
 
     default void deleteRecordById(Long id) {

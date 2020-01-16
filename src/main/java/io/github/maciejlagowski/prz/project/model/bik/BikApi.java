@@ -46,7 +46,8 @@ public class BikApi {
             liability.setIsPaidOff(liability.getAmountRepaid().equals(liability.getAmount()));
             liability.setTakeDate(new Date((long) (System.currentTimeMillis() * (random.nextDouble()))));
             liability.setInstallment(liability.getAmount() / 96);
-            liability.setIsDefault(!liability.getIsPaidOff() && random.nextBoolean());
+//            liability.setIsDefault(!liability.getIsPaidOff() && random.nextBoolean());
+            liability.setIsDefault(false);
             liabilities.add(liability);
         }
         return liabilities;

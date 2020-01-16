@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class LoginController implements Controller {
+public class LoginController {
 
     private static LoginController instance;
     @Getter

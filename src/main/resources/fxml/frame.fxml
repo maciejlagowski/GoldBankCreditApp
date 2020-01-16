@@ -18,6 +18,8 @@
         <ButtonBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #E0E0E0"
                    BorderPane.alignment="CENTER">
             <buttons>
+                <Button fx:id="backToMenuButton" mnemonicParsing="false" text="Back to menu"
+                        onAction="#onBackToMenuButtonClick"/>
                 <Button fx:id="nextButton" mnemonicParsing="false" onAction="#onNextButtonClick" text="Next"/>
             </buttons>
         </ButtonBar>
@@ -49,7 +51,7 @@
                         <ImageView fitHeight="100.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true"
                                    preserveRatio="true">
                             <image>
-<!--                                <Image url="/img/logo.png"/>-->
+                                <!--                                <Image url="/img/logo.png"/>-->
                             </image>
                         </ImageView>
                         <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="168.0" layoutY="7.0"
