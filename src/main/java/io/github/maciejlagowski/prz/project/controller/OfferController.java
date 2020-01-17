@@ -8,6 +8,7 @@ import io.github.maciejlagowski.prz.project.model.database.repository.CreditRepo
 import io.github.maciejlagowski.prz.project.model.tools.BackgroundTaskRunner;
 import io.github.maciejlagowski.prz.project.model.tools.Helpers;
 import io.github.maciejlagowski.prz.project.view.credit.CreditGranted;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import lombok.Data;
@@ -26,6 +27,8 @@ public class OfferController extends Controller {
     private Label fullCreditCostLabel;
     private Label repaymentPeriodLabel;
     private int repaymentPeriod;
+    private Button getCreditButton;
+    private Label errorLabel;
 
     public void onGetCreditButtonClick() {
         new BackgroundTaskRunner(() -> {
@@ -59,6 +62,13 @@ public class OfferController extends Controller {
         fullCreditCostLabel.setText("Full credit cost: " + Math.round(fullCreditCost) + " PLN");
         installmentAmount.setMax(offerGenerator.calculateMaxInstallment(creditAmount.getValue()));
         installmentAmount.setMin(offerGenerator.calculateMinInstallment(creditAmount.getValue()));
+        if (installmentAmount.getMax() <= installmentAmount.getMin()) {
+            getCreditButton.setVisible(false);
+            errorLabel.setVisible(true);
+        } else {
+            getCreditButton.setVisible(true);
+            errorLabel.setVisible(false);
+        }
         recalculateRepaymentPeriod();
     }
 

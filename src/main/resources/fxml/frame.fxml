@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="io.github.maciejlagowski.prz.project.controller.FrameController">
     <left>
-        <FlowPane orientation="VERTICAL" prefHeight="534.0" prefWidth="280.0" style="-fx-background-color: #E0E0E0"
-                  BorderPane.alignment="CENTER">
-            <children>
-                <Hyperlink prefHeight="39.0" prefWidth="240.0" text="Hyperlink"/>
-            </children>
-        </FlowPane>
+        <FlowPane fx:id="leftPane" orientation="VERTICAL" prefHeight="534.0" prefWidth="280.0"
+                  style="-fx-background-color: #E0E0E0" BorderPane.alignment="CENTER"/>
     </left>
     <bottom>
         <ButtonBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #E0E0E0"
                    BorderPane.alignment="CENTER">
             <buttons>
-                <Button fx:id="backToMenuButton" mnemonicParsing="false" text="Back to menu"
-                        onAction="#onBackToMenuButtonClick" visible="false"/>
+                <Button fx:id="backToMenuButton" mnemonicParsing="false" onAction="#onBackToMenuButtonClick"
+                        text="Back to menu" visible="false"/>
                 <Button fx:id="nextButton" mnemonicParsing="false" onAction="#onNextButtonClick" text="Next"
                         visible="false"/>
             </buttons>
@@ -35,12 +32,13 @@
             <items>
                 <FlowPane alignment="CENTER_RIGHT" hgap="15.0" prefHeight="200.0" prefWidth="200.0">
                     <children>
-                        <Label fx:id="loggedAsLabel" text="Logged as: XXXXXXX XXXXXXXXX">
+                        <Label fx:id="loggedAsLabel" text="Not logged">
                             <font>
                                 <Font size="21.0"/>
                             </font>
                         </Label>
-                        <Hyperlink fx:id="logoutLink" alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Logout">
+                        <Hyperlink fx:id="logoutLink" alignment="CENTER_RIGHT" contentDisplay="RIGHT"
+                                   onAction="#logoutLinkClicked" text="Logout" visible="false">
                             <font>
                                 <Font size="21.0"/>
                             </font>
@@ -52,7 +50,7 @@
                         <ImageView fitHeight="100.0" fitWidth="200.0" layoutX="22.0" pickOnBounds="true"
                                    preserveRatio="true">
                             <image>
-                                <!--                                <Image url="/img/logo.png"/>-->
+                                <Image url="/img/logo.png"/>
                             </image>
                         </ImageView>
                         <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="168.0" layoutY="7.0"

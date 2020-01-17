@@ -4,6 +4,7 @@ import io.github.maciejlagowski.prz.project.model.credit.risk.Incomes;
 import io.github.maciejlagowski.prz.project.model.database.entity.Income;
 import io.github.maciejlagowski.prz.project.model.enums.Industry;
 import io.github.maciejlagowski.prz.project.model.enums.Risk;
+import io.github.maciejlagowski.prz.project.view.Error;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class RiskCalculationTest {
 
     @Test
-    public void incomesTest() {
+    public void incomesTest() throws Error {
         List<Income> incomes = new LinkedList<>();
         incomes.add(new Income(1L, 2000.0, "TestCompany", Industry.COMPUTER));
         //avg(2000 - medium; COMPUTER - low) => medium

@@ -11,19 +11,20 @@ public class OfferGenerator {
     private CreditApplication application;
     @Getter
     private Double limit;
+    @Getter
+    private Double capacity;
 
     public OfferGenerator(CreditApplication application) {
         this.application = application;
     }
 
     public OfferGenerator generateOffers() throws Error {
-        double capacity = new Capacity().calculateCapacity(application);
+        capacity = new Capacity().calculateCapacity(application);
         if (capacity <= 0.0) {
             application.setRisk(Risk.DEFAULT);
             throw new Error("Capacity of application is negative.");
         }
         limit = new Limit().calculateLimit(application);
-        limit = Math.min(capacity, limit);
         return this;
     }
 
@@ -53,6 +54,6 @@ public class OfferGenerator {
 
     public Double calculateMaxInstallment(Double creditAmount) {
         final int MINIMUM_CREDIT_PERIOD_IN_MONTHS = 3;
-        return creditAmount / MINIMUM_CREDIT_PERIOD_IN_MONTHS;
+        return Math.min(creditAmount / MINIMUM_CREDIT_PERIOD_IN_MONTHS, capacity);
     }
 }

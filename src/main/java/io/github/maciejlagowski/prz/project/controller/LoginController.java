@@ -22,11 +22,16 @@ public class LoginController extends Controller {
     public void onLoginButtonClick() {
         loginForm.persist();
         new BackgroundTaskRunner(() -> {
+            FrameController frameController = FrameController.getInstance();
             if (login(usernameProperty.get(), passwordProperty.get())) {
-                Platform.runLater(() -> FrameController.getInstance().changeView(new Home()));
-                FrameController.getInstance().backToMenuButton.setVisible(true);
+                Platform.runLater(() -> {
+                    frameController.changeView(new Home());
+                    frameController.loggedAsLabel.setText("Logged as: " + usernameProperty.get());
+                    frameController.backToMenuButton.setVisible(true);
+                    frameController.logoutLink.setVisible(true);
+                });
             } else {
-                Platform.runLater(() -> FrameController.getInstance().changeView(new Login("Not valid credentials")));
+                Platform.runLater(() -> frameController.changeView(new Login("Not valid credentials")));
             }
         }).start();
     }

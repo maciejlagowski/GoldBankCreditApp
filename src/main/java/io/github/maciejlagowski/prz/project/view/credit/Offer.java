@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,13 +28,23 @@ public class Offer implements View {
                 createInstallmentAmountLabel(),
                 createFullCreditCostLabel(),
                 createRepaymentPeriodLabel(),
-                createGetCreditButton()
+                createGetCreditButton(),
+                createErrorLabel()
         ));
+    }
+
+    private Node createErrorLabel() {
+        Label label = new Label("Installment is bigger than capacity");
+        label.setTextFill(Color.web("FF0000"));
+        label.setVisible(false);
+        controller.setErrorLabel(label);
+        return label;
     }
 
     private Node createGetCreditButton() {
         Button button = new Button("Get credit");
         button.setOnAction((event) -> controller.onGetCreditButtonClick());
+        controller.setGetCreditButton(button);
         return button;
     }
 

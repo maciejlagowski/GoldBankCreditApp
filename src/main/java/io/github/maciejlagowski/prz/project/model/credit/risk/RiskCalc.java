@@ -24,7 +24,7 @@ public class RiskCalc {
     private Risk calculateClientRisk(Client client) throws Error {
         List<Risk> clientRisks = new LinkedList<>();
         clientRisks.add(new Incomes().calculateRisk(client.getIncomes()));
-        //TODO credit history (with default)
+        //TODO credit history
         clientRisks.add(new Bik().calculateRisk(new BikApi("123456789").getBikReport(client.getPesel())));
         return Risk.calculateAverageRisk(clientRisks);
     }
