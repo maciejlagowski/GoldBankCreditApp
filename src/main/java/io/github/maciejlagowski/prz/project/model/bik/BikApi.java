@@ -47,6 +47,7 @@ public class BikApi {
             liability.setTakeDate(new Date((long) (System.currentTimeMillis() * (random.nextDouble()))));
             liability.setInstallment(liability.getAmount() / 96);
 //            liability.setIsDefault(!liability.getIsPaidOff() && random.nextBoolean());
+//            it was generating too many defaults
             liability.setIsDefault(false);
             liabilities.add(liability);
         }

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Offer implements View {
 
-    private OfferController controller = OfferController.getInstance();
+    private OfferController controller = new OfferController();
 
     public Offer(OfferGenerator offerGenerator) {
         controller.setOfferGenerator(offerGenerator);

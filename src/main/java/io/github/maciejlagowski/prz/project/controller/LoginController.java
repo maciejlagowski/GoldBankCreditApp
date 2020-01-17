@@ -10,9 +10,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class LoginController {
+public class LoginController extends Controller {
 
-    private static LoginController instance;
     @Getter
     private SimpleStringProperty usernameProperty = new SimpleStringProperty("");
     @Getter
@@ -20,21 +19,12 @@ public class LoginController {
     @Setter
     private Form loginForm;
 
-    private LoginController() {
-    }
-
-    public static synchronized LoginController getInstance() {
-        if (instance == null) {
-            instance = new LoginController();
-        }
-        return instance;
-    }
-
     public void onLoginButtonClick() {
         loginForm.persist();
         new BackgroundTaskRunner(() -> {
             if (login(usernameProperty.get(), passwordProperty.get())) {
                 Platform.runLater(() -> FrameController.getInstance().changeView(new Home()));
+                FrameController.getInstance().backToMenuButton.setVisible(true);
             } else {
                 Platform.runLater(() -> FrameController.getInstance().changeView(new Login("Not valid credentials")));
             }

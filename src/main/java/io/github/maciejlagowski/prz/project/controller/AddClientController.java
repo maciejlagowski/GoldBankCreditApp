@@ -6,6 +6,7 @@ import io.github.maciejlagowski.prz.project.model.database.entity.Income;
 import io.github.maciejlagowski.prz.project.model.database.repository.ClientRepository;
 import io.github.maciejlagowski.prz.project.model.tools.BackgroundTaskRunner;
 import io.github.maciejlagowski.prz.project.view.Error;
+import io.github.maciejlagowski.prz.project.view.client.AddIncome;
 import io.github.maciejlagowski.prz.project.view.client.ManageClients;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,48 +15,23 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class AddClientController {
+@Data
+public class AddClientController extends Controller {
 
-    private static AddClientController instance;
-    @Getter
     private SimpleStringProperty forenameProperty = new SimpleStringProperty("");
-    @Getter
     private SimpleStringProperty surnameProperty = new SimpleStringProperty("");
-    @Getter
     private SimpleStringProperty addressProperty = new SimpleStringProperty("");
-    @Getter
     private SimpleStringProperty peselProperty = new SimpleStringProperty("");
-    @Setter
     private Form clientForm;
-    @Getter
     private ObservableList<Income> incomes = FXCollections.observableArrayList();
-
-
-    @Getter
-    @Setter
     private Stage stage;
-    @Getter
-    @Setter
     private ListView<Income> incomeListView;
-    @Getter
     private Label incomesSum = new Label("Incomes sum: 0.0");
-
-
-    private AddClientController() {
-    }
-
-    public static synchronized AddClientController getInstance() {
-        if (instance == null) {
-            instance = new AddClientController();
-        }
-        return instance;
-    }
 
     public void onAddClientButtonClick() throws Error {
         clientForm.persist();
@@ -73,11 +49,21 @@ public class AddClientController {
         }
     }
 
+    public void addIncomeButtonClicked() {
+        new AddIncome().showStage();
+        recalculateIncomesSum();
+    }
+
     public void recalculateIncomesSum() {
         Double sum = 0.0;
         for (Income income : incomes) {
             sum += income.getAmount();
         }
         incomesSum.setText("Incomes sum: " + sum);
+    }
+
+    public void removeIncomeButtonClicked() {
+        incomes.remove(incomeListView.getSelectionModel().getSelectedItem());
+        recalculateIncomesSum();
     }
 }

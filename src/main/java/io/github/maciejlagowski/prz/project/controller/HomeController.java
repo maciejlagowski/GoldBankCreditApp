@@ -9,21 +9,10 @@ import javafx.application.Platform;
 
 import java.util.List;
 
-public class HomeController {
-
-    private static HomeController instance;
-
-    private HomeController() {
-    }
-
-    public static synchronized HomeController getInstance() {
-        if (instance == null) {
-            instance = new HomeController();
-        }
-        return instance;
-    }
+public class HomeController extends Controller {
 
     public void onApplyForACreditButtonClick() {
+        FrameController.getInstance().nextButton.setVisible(true);
         new BackgroundTaskRunner(() -> {
             List<Client> clients = new ClientRepository().readAllRecords();
             Platform.runLater(() -> FrameController.getInstance().changeView(new TypeAndClients(clients)));

@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -18,7 +19,8 @@ import java.util.List;
 
 public class TypeAndClients implements View {
 
-    private TypeAndClientsController controller = TypeAndClientsController.getInstance();
+    @Getter
+    private TypeAndClientsController controller = new TypeAndClientsController();
 
     public TypeAndClients(List<Client> clients) {
         controller.setClientsFromDb(FXCollections.observableArrayList(clients));

@@ -15,13 +15,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class ManageClients implements View {
 
-    private ManageClientsController controller = ManageClientsController.getInstance();
+    @Getter
+    private ManageClientsController controller = new ManageClientsController();
     private ListView<Client> listView;
 
     public ManageClients(List<Client> clients) {
@@ -46,7 +48,6 @@ public class ManageClients implements View {
     private Node createButtons() {
         Button createButton = new Button("Create");
         Button readButton = new Button("Read");
-        Button updateButton = new Button("Update");
         Button deleteButton = new Button("Delete");
         createButton.setOnAction((event) -> {
             controller.onCreateButtonClick();
@@ -55,13 +56,6 @@ public class ManageClients implements View {
         readButton.setOnAction((event) -> {
             try {
                 controller.onReadButtonClick(getSelectedClient());
-            } catch (Error error) {
-                error.showStage();
-            }
-        });
-        updateButton.setOnAction((event) -> {
-            try {
-                controller.onUpdateButtonClick(getSelectedClient());
             } catch (Error error) {
                 error.showStage();
             }
@@ -75,7 +69,7 @@ public class ManageClients implements View {
         });
         FlowPane pane = new FlowPane();
         pane.setHgap(10.0);
-        pane.getChildren().addAll(createButton, readButton, updateButton, deleteButton);
+        pane.getChildren().addAll(createButton, readButton, deleteButton);
         return pane;
     }
 

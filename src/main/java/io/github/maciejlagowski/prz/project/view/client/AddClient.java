@@ -7,6 +7,7 @@ import com.dlsc.formsfx.view.renderer.FormRenderer;
 import io.github.maciejlagowski.prz.project.controller.AddClientController;
 import io.github.maciejlagowski.prz.project.model.database.entity.Income;
 import io.github.maciejlagowski.prz.project.view.Error;
+import io.github.maciejlagowski.prz.project.view.View;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,10 +16,12 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import lombok.Getter;
 
-public class AddClient {
+public class AddClient implements View {
 
-    private AddClientController controller = AddClientController.getInstance();
+    @Getter
+    private AddClientController controller = new AddClientController();
 
     public void showStage() {
         Stage stage = new Stage();
@@ -42,15 +45,9 @@ public class AddClient {
             }
         });
         Button addIncomeButton = new Button("Add income");
-        addIncomeButton.setOnAction((event) -> {
-            new AddIncome().showStage();
-            controller.recalculateIncomesSum();
-        });
+        addIncomeButton.setOnAction((event) -> controller.addIncomeButtonClicked());
         Button removeIncomeButton = new Button("Remove income");
-        removeIncomeButton.setOnAction((event) -> {
-            controller.getIncomes().remove(controller.getIncomeListView().getSelectionModel().getSelectedItem());
-            controller.recalculateIncomesSum();
-        });
+        removeIncomeButton.setOnAction((event) -> controller.removeIncomeButtonClicked());
         flowPane.getChildren().addAll(addIncomeButton, removeIncomeButton, addClientButton);
         return flowPane;
     }

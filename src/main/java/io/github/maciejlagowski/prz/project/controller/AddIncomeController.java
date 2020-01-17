@@ -9,9 +9,8 @@ import javafx.beans.property.SimpleStringProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-public class AddIncomeController {
+public class AddIncomeController extends Controller {
 
-    private static AddIncomeController instance;
     @Getter
     private SimpleDoubleProperty amountProperty = new SimpleDoubleProperty(0.0);
     @Getter
@@ -21,21 +20,11 @@ public class AddIncomeController {
     @Setter
     private Industry companyIndustryProperty;
 
-
-    private AddIncomeController() {
-    }
-
-    public static synchronized AddIncomeController getInstance() {
-        if (instance == null) {
-            instance = new AddIncomeController();
-        }
-        return instance;
-    }
-
     public void onAddIncomeButtonClick() {
         incomeForm.persist();
         Income income = new Income(null, amountProperty.get(), companyNameProperty.get(), companyIndustryProperty);
         new IncomeRepository().createRecord(income);
-        AddClientController.getInstance().getIncomes().add(income);
+        AddClientController controller = (AddClientController) FrameController.getInstance().getActualView().getController();
+        controller.getIncomes().add(income);
     }
 }

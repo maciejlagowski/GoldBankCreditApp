@@ -2,7 +2,7 @@ package io.github.maciejlagowski.prz.project;
 
 import io.github.maciejlagowski.prz.project.controller.FrameController;
 import io.github.maciejlagowski.prz.project.view.Frame;
-import io.github.maciejlagowski.prz.project.view.Home;
+import io.github.maciejlagowski.prz.project.view.Login;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -15,8 +15,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         new Frame().showStage();
-//        FrameController.getInstance().changeView(new Login());
-        FrameController.getInstance().changeView(new Home());
+        FrameController.getInstance().changeView(new Login());
+//        FrameController.getInstance().changeView(new Home());
 //        FrameController.getInstance().changeView(new CreditGranted());
 //        FrameController.getInstance().changeView(new TypeAndClients());
     }

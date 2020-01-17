@@ -4,13 +4,15 @@ import io.github.maciejlagowski.prz.project.controller.HomeController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
+import lombok.Getter;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class Home implements View {
 
-    private HomeController controller = HomeController.getInstance();
+    @Getter
+    private HomeController controller = new HomeController();
 
     public List<Node> createContent() {
         return new LinkedList<>(List.of(

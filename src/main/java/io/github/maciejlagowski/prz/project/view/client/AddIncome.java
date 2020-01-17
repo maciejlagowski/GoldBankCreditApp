@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 public class AddIncome {
 
-    private AddIncomeController controller = AddIncomeController.getInstance();
+    private AddIncomeController controller = new AddIncomeController();
     private Stage stage;
 
     public void showStage() {
@@ -58,6 +58,7 @@ public class AddIncome {
         ChoiceBox<Industry> choiceBox = new ChoiceBox<>();
         choiceBox.setItems(FXCollections.observableArrayList(Arrays.asList(Industry.values())));
         choiceBox.setOnAction((event) -> controller.setCompanyIndustryProperty(choiceBox.getValue()));
+        choiceBox.setValue(Industry.AEROSPACE);
         return choiceBox;
     }
 }

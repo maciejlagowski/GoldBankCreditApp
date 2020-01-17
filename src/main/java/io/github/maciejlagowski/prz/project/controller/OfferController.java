@@ -15,9 +15,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class OfferController {
-
-    private static OfferController instance;
+public class OfferController extends Controller {
 
     private OfferGenerator offerGenerator;
     private Slider creditAmount;
@@ -28,17 +26,6 @@ public class OfferController {
     private Label fullCreditCostLabel;
     private Label repaymentPeriodLabel;
     private int repaymentPeriod;
-
-
-    private OfferController() {
-    }
-
-    public static synchronized OfferController getInstance() {
-        if (instance == null) {
-            instance = new OfferController();
-        }
-        return instance;
-    }
 
     public void onGetCreditButtonClick() {
         new BackgroundTaskRunner(() -> {

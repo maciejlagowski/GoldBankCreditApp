@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.LinkedList;
@@ -19,7 +20,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Login implements View {
 
-    private LoginController controller = LoginController.getInstance();
+    @Getter
+    private LoginController controller = new LoginController();
     private String message = "";
 
     public Login(String message) {

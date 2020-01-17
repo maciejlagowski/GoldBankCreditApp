@@ -19,8 +19,9 @@
                    BorderPane.alignment="CENTER">
             <buttons>
                 <Button fx:id="backToMenuButton" mnemonicParsing="false" text="Back to menu"
-                        onAction="#onBackToMenuButtonClick"/>
-                <Button fx:id="nextButton" mnemonicParsing="false" onAction="#onNextButtonClick" text="Next"/>
+                        onAction="#onBackToMenuButtonClick" visible="false"/>
+                <Button fx:id="nextButton" mnemonicParsing="false" onAction="#onNextButtonClick" text="Next"
+                        visible="false"/>
             </buttons>
         </ButtonBar>
     </bottom>
