@@ -1,8 +1,8 @@
 package io.github.maciejlagowski.prz.project.controller;
 
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
-import io.github.maciejlagowski.prz.project.view.clients.AddClient;
-import io.github.maciejlagowski.prz.project.view.clients.ReadClient;
+import io.github.maciejlagowski.prz.project.view.client.AddClient;
+import io.github.maciejlagowski.prz.project.view.client.ReadClient;
 import lombok.Getter;
 import lombok.Setter;
 

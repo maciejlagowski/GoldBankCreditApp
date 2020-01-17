@@ -3,7 +3,7 @@ package io.github.maciejlagowski.prz.project.controller;
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
 import io.github.maciejlagowski.prz.project.model.database.repository.ClientRepository;
 import io.github.maciejlagowski.prz.project.view.Wait;
-import io.github.maciejlagowski.prz.project.view.clients.ManageClients;
+import io.github.maciejlagowski.prz.project.view.client.ManageClients;
 import io.github.maciejlagowski.prz.project.view.credit.TypeAndClients;
 import javafx.application.Platform;
 

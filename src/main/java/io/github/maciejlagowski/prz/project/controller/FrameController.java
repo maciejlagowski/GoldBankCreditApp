@@ -28,9 +28,6 @@ public class FrameController {
             case TYPE_AND_CLIENTS:
                 TypeAndClientsController.getInstance().onNextButtonClick();
                 break;
-            case REQUESTED_PERIOD:
-                RequestedPeriodController.getInstance().onNextButtonClick();
-                break;
             default:
                 System.err.println("Button should be inactive here!");
         }

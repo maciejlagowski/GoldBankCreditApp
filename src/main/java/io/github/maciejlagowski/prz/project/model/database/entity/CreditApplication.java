@@ -22,7 +22,6 @@ public class CreditApplication {
     private Date applicationDate;
     @OneToMany(fetch = FetchType.EAGER)
     private List<Client> clients;
-    private Integer requestedPeriod;
     private Risk risk;
     @OneToOne
     private Credit credit;

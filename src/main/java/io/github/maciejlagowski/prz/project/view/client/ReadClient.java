@@ -1,4 +1,4 @@
-package io.github.maciejlagowski.prz.project.view.clients;
+package io.github.maciejlagowski.prz.project.view.client;
 
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
 import io.github.maciejlagowski.prz.project.model.database.entity.Credit;

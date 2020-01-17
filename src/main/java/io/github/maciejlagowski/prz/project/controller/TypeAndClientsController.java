@@ -1,10 +1,13 @@
 package io.github.maciejlagowski.prz.project.controller;
 
 import io.github.maciejlagowski.prz.project.model.credit.Application;
+import io.github.maciejlagowski.prz.project.model.credit.offer.OfferGenerator;
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
 import io.github.maciejlagowski.prz.project.model.enums.CreditType;
+import io.github.maciejlagowski.prz.project.view.Error;
+import io.github.maciejlagowski.prz.project.view.Home;
 import io.github.maciejlagowski.prz.project.view.Wait;
-import io.github.maciejlagowski.prz.project.view.credit.RequestedPeriod;
+import io.github.maciejlagowski.prz.project.view.credit.Offer;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -40,12 +43,17 @@ public class TypeAndClientsController {
     public void onNextButtonClick() {
         Platform.runLater(() -> FrameController.getInstance().changeView(new Wait()));
         new Thread(() -> {
-            Application.setApplicationInstance(
-                    new Application()
-                            .setCreditType(creditType)
-                            .setClients(clientsChosen)
-            );
-            Platform.runLater(() -> FrameController.getInstance().changeView(new RequestedPeriod()));
+            try {
+                Application application = new Application()
+                        .setCreditType(creditType)
+                        .setClients(clientsChosen)
+                        .calculateRisk();
+                Offer offer = new Offer(new OfferGenerator(application.getCreditApplication()).generateOffers());
+                Platform.runLater(() -> FrameController.getInstance().changeView(offer));
+            } catch (Error error) {
+                Platform.runLater(error::showStage);
+                Platform.runLater(() -> FrameController.getInstance().changeView(new Home()));
+            }
         }).start();
     }
 

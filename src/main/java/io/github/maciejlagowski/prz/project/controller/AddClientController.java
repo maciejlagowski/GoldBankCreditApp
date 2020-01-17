@@ -6,7 +6,7 @@ import io.github.maciejlagowski.prz.project.model.database.entity.Income;
 import io.github.maciejlagowski.prz.project.model.database.repository.ClientRepository;
 import io.github.maciejlagowski.prz.project.view.Error;
 import io.github.maciejlagowski.prz.project.view.Wait;
-import io.github.maciejlagowski.prz.project.view.clients.ManageClients;
+import io.github.maciejlagowski.prz.project.view.client.ManageClients;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

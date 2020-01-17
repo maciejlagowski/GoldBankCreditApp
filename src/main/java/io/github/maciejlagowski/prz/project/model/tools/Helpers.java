@@ -10,4 +10,8 @@ public class Helpers {
     public static String camelCaseToUpperSnakeCase(String input) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, input);
     }
+
+    public static double roundDouble(Double x) {
+        return (double) Math.round(x);
+    }
 }

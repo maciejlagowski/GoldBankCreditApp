@@ -5,6 +5,7 @@ import lombok.Getter;
 
 public class OfferGenerator {
 
+    @Getter
     private CreditApplication application;
     @Getter
     private Double limit;
@@ -18,22 +19,26 @@ public class OfferGenerator {
     public OfferGenerator generateOffers() {
         limit = new Limit().calculateLimit(application);
         capacity = new Capacity().calculateCapacity(application);
-
-        //TODO jakos ten suwak
         return this;
     }
 
-    private Double calculateMargin() {
+    private Double calculateMargin(Double creditAmount, Double installmentAmount) {
+        //TODO
         return 0.0;
     }
 
+    private int calculatePeriod() {
+        return 0;
+    }
+
     public Double calculateMinInstallment(Double creditAmount) {
-        Integer period = application.getRequestedPeriod();
-        return creditAmount / period;
+        final int MAXIMUM_CREDIT_PERIOD_IN_MONTHS = 120;
+        return creditAmount / MAXIMUM_CREDIT_PERIOD_IN_MONTHS;
 
     }
 
     public Double calculateMaxInstallment(Double creditAmount) {
-        return creditAmount / 3;
+        final int MINIMUM_CREDIT_PERIOD_IN_MONTHS = 3;
+        return creditAmount / MINIMUM_CREDIT_PERIOD_IN_MONTHS;
     }
 }
