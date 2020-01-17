@@ -48,7 +48,6 @@ public class ManageClients implements View {
         Button readButton = new Button("Read");
         Button updateButton = new Button("Update");
         Button deleteButton = new Button("Delete");
-        Button saveAndBackToMenuButton = new Button("Save and back to menu");
         createButton.setOnAction((event) -> {
             controller.onCreateButtonClick();
             listView.setItems(FXCollections.observableArrayList(controller.getClients()));
@@ -74,7 +73,6 @@ public class ManageClients implements View {
                 error.showStage();
             }
         });
-        saveAndBackToMenuButton.setOnAction((event) -> controller.onSaveButtonClick());
         FlowPane pane = new FlowPane();
         pane.setHgap(10.0);
         pane.getChildren().addAll(createButton, readButton, updateButton, deleteButton);

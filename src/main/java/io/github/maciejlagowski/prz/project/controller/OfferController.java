@@ -5,10 +5,9 @@ import io.github.maciejlagowski.prz.project.model.database.entity.Credit;
 import io.github.maciejlagowski.prz.project.model.database.entity.CreditApplication;
 import io.github.maciejlagowski.prz.project.model.database.repository.ClientRepository;
 import io.github.maciejlagowski.prz.project.model.database.repository.CreditRepository;
+import io.github.maciejlagowski.prz.project.model.tools.BackgroundTaskRunner;
 import io.github.maciejlagowski.prz.project.model.tools.Helpers;
-import io.github.maciejlagowski.prz.project.view.Wait;
 import io.github.maciejlagowski.prz.project.view.credit.CreditGranted;
-import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import lombok.Data;
@@ -42,8 +41,7 @@ public class OfferController {
     }
 
     public void onGetCreditButtonClick() {
-        Platform.runLater(() -> FrameController.getInstance().changeView(new Wait()));
-        new Thread(() -> {
+        new BackgroundTaskRunner(() -> {
             CreditApplication application = offerGenerator.getApplication();
             Credit credit = new Credit(null, Helpers.roundDouble(creditAmount.getValue()), 0.0,
                     Helpers.roundDouble(fullCreditCost), application.getApplicationDate(), getPlannedRepaymentDate(),
@@ -54,8 +52,7 @@ public class OfferController {
                 client.getCredits().add(credit);
                 new ClientRepository().updateRecord(client);
             });
-            Platform.runLater(() -> FrameController.getInstance().changeView(new CreditGranted()));
-        }).start();
+        }).start(new CreditGranted());
     }
 
     public void onInstallmentAmountSliderChange() {

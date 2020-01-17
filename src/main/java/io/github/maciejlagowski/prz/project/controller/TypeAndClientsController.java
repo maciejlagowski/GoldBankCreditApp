@@ -4,9 +4,9 @@ import io.github.maciejlagowski.prz.project.model.credit.Application;
 import io.github.maciejlagowski.prz.project.model.credit.offer.OfferGenerator;
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
 import io.github.maciejlagowski.prz.project.model.enums.CreditType;
+import io.github.maciejlagowski.prz.project.model.tools.BackgroundTaskRunner;
 import io.github.maciejlagowski.prz.project.view.Error;
 import io.github.maciejlagowski.prz.project.view.Home;
-import io.github.maciejlagowski.prz.project.view.Wait;
 import io.github.maciejlagowski.prz.project.view.credit.Offer;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -41,8 +41,7 @@ public class TypeAndClientsController {
     }
 
     public void onNextButtonClick() {
-        Platform.runLater(() -> FrameController.getInstance().changeView(new Wait()));
-        new Thread(() -> {
+        new BackgroundTaskRunner(() -> {
             try {
                 Application application = new Application()
                         .setCreditType(creditType)

@@ -4,8 +4,8 @@ import com.dlsc.formsfx.model.structure.Form;
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
 import io.github.maciejlagowski.prz.project.model.database.entity.Income;
 import io.github.maciejlagowski.prz.project.model.database.repository.ClientRepository;
+import io.github.maciejlagowski.prz.project.model.tools.BackgroundTaskRunner;
 import io.github.maciejlagowski.prz.project.view.Error;
-import io.github.maciejlagowski.prz.project.view.Wait;
 import io.github.maciejlagowski.prz.project.view.client.ManageClients;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -62,15 +62,14 @@ public class AddClientController {
         try {
             Client client = new Client(null, forenameProperty.get(), surnameProperty.get(),
                     addressProperty.get(), Long.parseLong(peselProperty.get()), incomes, new LinkedList<>());
-            Platform.runLater(() -> FrameController.getInstance().changeView(new Wait()));
-            new Thread(() -> {
+            new BackgroundTaskRunner(() -> {
                 ClientRepository clientRepository = new ClientRepository();
                 clientRepository.createRecord(client);
                 List<Client> clients = clientRepository.readAllRecords();
                 Platform.runLater(() -> FrameController.getInstance().changeView(new ManageClients(clients)));
             }).start();
         } catch (NumberFormatException e) {
-            throw new Error("PESEL not valid");
+            throw new Error("Data not valid");
         }
     }
 

@@ -23,7 +23,7 @@ public class Frame {
             FrameController.setInstance(fxmlLoader.getController());
             stage.show();
         } catch (IOException e) {
-            //TODO logger
+            new Error("Cannot load FXML file").showStage();
         }
     }
 }

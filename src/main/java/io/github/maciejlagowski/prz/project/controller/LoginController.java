@@ -1,9 +1,9 @@
 package io.github.maciejlagowski.prz.project.controller;
 
 import com.dlsc.formsfx.model.structure.Form;
+import io.github.maciejlagowski.prz.project.model.tools.BackgroundTaskRunner;
 import io.github.maciejlagowski.prz.project.view.Home;
 import io.github.maciejlagowski.prz.project.view.Login;
-import io.github.maciejlagowski.prz.project.view.Wait;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import lombok.Getter;
@@ -32,8 +32,7 @@ public class LoginController {
 
     public void onLoginButtonClick() {
         loginForm.persist();
-        Platform.runLater(() -> FrameController.getInstance().changeView(new Wait()));
-        new Thread(() -> {
+        new BackgroundTaskRunner(() -> {
             if (login(usernameProperty.get(), passwordProperty.get())) {
                 Platform.runLater(() -> FrameController.getInstance().changeView(new Home()));
             } else {

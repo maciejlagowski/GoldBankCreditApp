@@ -2,7 +2,7 @@ package io.github.maciejlagowski.prz.project.controller;
 
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
 import io.github.maciejlagowski.prz.project.model.database.repository.ClientRepository;
-import io.github.maciejlagowski.prz.project.view.Wait;
+import io.github.maciejlagowski.prz.project.model.tools.BackgroundTaskRunner;
 import io.github.maciejlagowski.prz.project.view.client.ManageClients;
 import io.github.maciejlagowski.prz.project.view.credit.TypeAndClients;
 import javafx.application.Platform;
@@ -24,16 +24,14 @@ public class HomeController {
     }
 
     public void onApplyForACreditButtonClick() {
-        Platform.runLater(() -> FrameController.getInstance().changeView(new Wait()));
-        new Thread(() -> {
+        new BackgroundTaskRunner(() -> {
             List<Client> clients = new ClientRepository().readAllRecords();
             Platform.runLater(() -> FrameController.getInstance().changeView(new TypeAndClients(clients)));
         }).start();
     }
 
     public void onManageCustomersButtonClick() {
-        Platform.runLater(() -> FrameController.getInstance().changeView(new Wait()));
-        new Thread(() -> {
+        new BackgroundTaskRunner(() -> {
             List<Client> clients = new ClientRepository().readAllRecords();
             Platform.runLater(() -> FrameController.getInstance().changeView(new ManageClients(clients)));
         }).start();

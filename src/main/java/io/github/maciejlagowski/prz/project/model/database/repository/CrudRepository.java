@@ -1,5 +1,6 @@
 package io.github.maciejlagowski.prz.project.model.database.repository;
 
+import io.github.maciejlagowski.prz.project.view.Error;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -8,24 +9,19 @@ import java.util.List;
 
 public interface CrudRepository <T> {
 
-    //TODO logger
-
     Class getEntityType();
 
     default void createRecord(T object) {
-//        Logger logger = LoggerSingleton.getInstance();
         Session session = DbmsOperations.getSession();
         try {
             session.beginTransaction();
             session.save(object);
             session.getTransaction().commit();
-//            logger.info("Create " + this.getEntityType().toString() + " transaction committed successfully");
         } catch (Exception sqlException) {
             if(session.getTransaction() != null) {
                 session.getTransaction().rollback();
-//                logger.error("Error in creating " + this.getEntityType().toString() + " transaction, rolling back changes.");
+                new Error("Error in creating " + this.getEntityType().toString() + " transaction, rolling back changes.").showStage();
             }
-            sqlException.printStackTrace();
         } finally {
             if(session != null) {
                 session.close();
@@ -42,9 +38,8 @@ public interface CrudRepository <T> {
         } catch (Exception sqlException) {
             if(session.getTransaction() != null) {
                 session.getTransaction().rollback();
-//                logger.error("Error in reading accounts transaction, rolling back.");
+                new Error("Error in reading all records transaction, rolling back.").showStage();
             }
-            sqlException.printStackTrace();
         } finally {
             if(session != null) {
                 session.close();
@@ -59,16 +54,10 @@ public interface CrudRepository <T> {
         try {
             session.beginTransaction();
             foundRecord = (T) session.get(this.getEntityType(), id);
-//            session.getTransaction().commit();
         } catch (Exception sqlException) {
             if(session.getTransaction() != null) {
-//                logger.info("\n.......Transaction Is Being Rolled Back.......\n");
+                new Error("Error in reading record").showStage();
                 session.getTransaction().rollback();
-            }
-            sqlException.printStackTrace();
-        } finally {
-            if(session != null && session.isOpen()) {
-//                session.close();
             }
         }
         return foundRecord;
@@ -83,8 +72,8 @@ public interface CrudRepository <T> {
         } catch (Exception sqlException) {
             if (session.getTransaction() != null) {
                 session.getTransaction().rollback();
+                new Error("Error in updating record, rolling back.").showStage();
             }
-            sqlException.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
@@ -93,11 +82,39 @@ public interface CrudRepository <T> {
     }
 
     default void deleteRecordById(Long id) {
-        //TODO
+        Session session = DbmsOperations.getSession();
+        try {
+            session.beginTransaction();
+            session.delete(findRecordById(id));
+            session.getTransaction().commit();
+        } catch (Exception sqlException) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+                new Error("Error in deleting record, rolling back.").showStage();
+            }
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
 
     default void deleteRecord(T object) {
-        //TODO
+        Session session = DbmsOperations.getSession();
+        try {
+            session.beginTransaction();
+            session.delete(object);
+            session.getTransaction().commit();
+        } catch (Exception sqlException) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+                new Error("Error in deleting record, rolling back.").showStage();
+            }
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
 
     default void deleteAllRecords() {
@@ -108,13 +125,11 @@ public interface CrudRepository <T> {
             Query query = session.createQuery("DELETE FROM " + this.getEntityType().toString());
             query.executeUpdate();
             session.getTransaction().commit();
-//            logger.info("\nSuccessfully Deleted All Records From The Database Table!\n");
         } catch(Exception sqlException) {
             if(session.getTransaction() != null) {
-//                logger.info("\n.......Transaction Is Being Rolled Back.......\n");
+                new Error("Error in deleting all records transaction, rolling back.").showStage();
                 session.getTransaction().rollback();
             }
-            sqlException.printStackTrace();
         } finally {
             if(session != null) {
                 session.close();
