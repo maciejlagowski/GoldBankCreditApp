@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class OfferController {
 
@@ -23,6 +25,10 @@ public class OfferController {
     private Slider installmentAmount;
     private Label creditAmountLabel;
     private Label installmentAmountLabel;
+    private Double fullCreditCost;
+    private Label fullCreditCostLabel;
+    private Label repaymentPeriodLabel;
+    private int repaymentPeriod;
 
 
     private OfferController() {
@@ -38,10 +44,9 @@ public class OfferController {
     public void onGetCreditButtonClick() {
         Platform.runLater(() -> FrameController.getInstance().changeView(new Wait()));
         new Thread(() -> {
-            //TODO markup, plannedRepaymentDate
             CreditApplication application = offerGenerator.getApplication();
             Credit credit = new Credit(null, Helpers.roundDouble(creditAmount.getValue()), 0.0,
-                    null, application.getApplicationDate(), null,
+                    Helpers.roundDouble(fullCreditCost), application.getApplicationDate(), getPlannedRepaymentDate(),
                     null, false, application.getType(),
                     Helpers.roundDouble(installmentAmount.getValue()), false);
             new CreditRepository().createRecord(credit);
@@ -51,5 +56,39 @@ public class OfferController {
             });
             Platform.runLater(() -> FrameController.getInstance().changeView(new CreditGranted()));
         }).start();
+    }
+
+    public void onInstallmentAmountSliderChange() {
+        if (Double.isNaN(installmentAmount.getValue())) {
+            installmentAmount.setValue(installmentAmount.getMax());
+        }
+        installmentAmountLabel.setText("Installment amount: " + Math.round(installmentAmount.getValue()) + " PLN");
+        recalculateRepaymentPeriod();
+    }
+
+    public void onCreditAmountSliderChange() {
+        if (Double.isNaN(creditAmount.getValue())) {
+            creditAmount.setValue(creditAmount.getMax());
+        }
+        creditAmountLabel.setText("Credit amount: " + Math.round(creditAmount.getValue()) + " PLN");
+        fullCreditCost = offerGenerator.calculateFullCreditCost(creditAmount.getValue());
+        fullCreditCostLabel.setText("Full credit cost: " + Math.round(fullCreditCost) + " PLN");
+        installmentAmount.setMax(offerGenerator.calculateMaxInstallment(creditAmount.getValue()));
+        installmentAmount.setMin(offerGenerator.calculateMinInstallment(creditAmount.getValue()));
+        recalculateRepaymentPeriod();
+    }
+
+    private void recalculateRepaymentPeriod() {
+        repaymentPeriod = offerGenerator.calculateRepaymentPeriod(fullCreditCost, installmentAmount.getValue());
+        repaymentPeriodLabel.setText("Repayment period: " + repaymentPeriod + " months");
+    }
+
+    private Date getPlannedRepaymentDate() {
+        Date applicationDate = offerGenerator.getApplication().getApplicationDate();
+        return new Date(applicationDate.getTime() + convertMonthsToMilis(repaymentPeriod));
+    }
+
+    private Long convertMonthsToMilis(int months) {
+        return months * 2592000000L;
     }
 }

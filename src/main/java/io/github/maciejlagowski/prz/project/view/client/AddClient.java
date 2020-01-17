@@ -1,4 +1,4 @@
-package io.github.maciejlagowski.prz.project.view.clients;
+package io.github.maciejlagowski.prz.project.view.client;
 
 import com.dlsc.formsfx.model.structure.Field;
 import com.dlsc.formsfx.model.structure.Form;

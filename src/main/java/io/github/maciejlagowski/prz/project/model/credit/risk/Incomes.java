@@ -2,17 +2,17 @@ package io.github.maciejlagowski.prz.project.model.credit.risk;
 
 import io.github.maciejlagowski.prz.project.model.database.entity.Income;
 import io.github.maciejlagowski.prz.project.model.enums.Risk;
+import io.github.maciejlagowski.prz.project.view.Error;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class Incomes {
 
-    public Risk calculateRisk(List<Income> incomes) {
+    public Risk calculateRisk(List<Income> incomes) throws Error {
         List<Risk> incomeRisks = new LinkedList<>();
         if (incomes.isEmpty()) {
-            System.out.println("dd");
-            return Risk.DEFAULT;
+            throw new Error("Incomes of client are empty, cannot proceed application.");
         }
         incomes.forEach(income -> incomeRisks.add(calculateIncomeRisk(income)));
         return Risk.getBestRisk(incomeRisks);

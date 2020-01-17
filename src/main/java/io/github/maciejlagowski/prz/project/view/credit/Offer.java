@@ -25,6 +25,8 @@ public class Offer implements View {
                 createCreditAmountLabel(),
                 createInstallmentAmountSlider(),
                 createInstallmentAmountLabel(),
+                createFullCreditCostLabel(),
+                createRepaymentPeriodLabel(),
                 createGetCreditButton()
         ));
     }
@@ -53,13 +55,7 @@ public class Offer implements View {
         creditAmount.setMax(offerGenerator.getLimit());
         creditAmount.setMin(0.0);
         creditAmount.setValue(1.0);
-        creditAmount.valueProperty().addListener((event) -> {
-            if (Double.isNaN(creditAmount.getValue())) {
-                creditAmount.setValue(creditAmount.getMax());
-            }
-            controller.getCreditAmountLabel().setText("Credit amount: " + Math.round(creditAmount.getValue()) + " PLN");
-            controller.getInstallmentAmount().setMax(offerGenerator.calculateMaxInstallment(creditAmount.getValue()));
-        });
+        creditAmount.valueProperty().addListener((event) -> controller.onCreditAmountSliderChange());
         controller.setCreditAmount(creditAmount);
         return creditAmount;
     }
@@ -70,13 +66,21 @@ public class Offer implements View {
         installmentAmount.setMin(offerGenerator.calculateMinInstallment(controller.getCreditAmount().getValue()));
         installmentAmount.setMax(offerGenerator.calculateMaxInstallment(controller.getCreditAmount().getValue()));
         installmentAmount.setValue(installmentAmount.getMin());
-        installmentAmount.valueProperty().addListener((event) -> {
-            if (Double.isNaN(installmentAmount.getValue())) {
-                installmentAmount.setValue(installmentAmount.getMax());
-            }
-            controller.getInstallmentAmountLabel().setText("Installment amount: " + Math.round(installmentAmount.getValue()) + " PLN");
-        });
+        installmentAmount.valueProperty().addListener((event) -> controller.onInstallmentAmountSliderChange());
         controller.setInstallmentAmount(installmentAmount);
         return installmentAmount;
+    }
+
+    private Node createFullCreditCostLabel() {
+        controller.setFullCreditCost(controller.getOfferGenerator().calculateFullCreditCost(controller.getCreditAmount().getValue()));
+        Label label = new Label("Full credit cost: " + Math.round(controller.getFullCreditCost()) + " PLN");
+        controller.setFullCreditCostLabel(label);
+        return label;
+    }
+
+    private Node createRepaymentPeriodLabel() {
+        Label label = new Label("Repayment period: " + 0 + " months");
+        controller.setRepaymentPeriodLabel(label);
+        return label;
     }
 }

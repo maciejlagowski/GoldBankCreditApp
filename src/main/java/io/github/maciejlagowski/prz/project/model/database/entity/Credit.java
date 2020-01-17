@@ -22,7 +22,7 @@ public class Credit {
     private Long id;
     private Double amountTaken;
     private Double amountRepaid;
-    private Double markup;
+    private Double fullCreditCost;
     private Date takeDate;
     private Date plannedRepaymentDate;
     private Date actualRepaymentDate;

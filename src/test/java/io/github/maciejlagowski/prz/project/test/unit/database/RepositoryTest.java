@@ -2,12 +2,13 @@ package io.github.maciejlagowski.prz.project.test.unit.database;
 
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
 import io.github.maciejlagowski.prz.project.model.database.entity.Credit;
-import io.github.maciejlagowski.prz.project.model.database.entity.CreditApplication;
 import io.github.maciejlagowski.prz.project.model.database.entity.Income;
-import io.github.maciejlagowski.prz.project.model.database.repository.*;
+import io.github.maciejlagowski.prz.project.model.database.repository.ClientRepository;
+import io.github.maciejlagowski.prz.project.model.database.repository.CreditRepository;
+import io.github.maciejlagowski.prz.project.model.database.repository.CrudRepository;
+import io.github.maciejlagowski.prz.project.model.database.repository.IncomeRepository;
 import io.github.maciejlagowski.prz.project.model.enums.CreditType;
 import io.github.maciejlagowski.prz.project.model.enums.Industry;
-import io.github.maciejlagowski.prz.project.model.enums.Risk;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -22,7 +23,6 @@ public class RepositoryTest {
 
     private CrudRepository<Client> clientRepo = new ClientRepository();
     private CrudRepository<Credit> creditRepo = new CreditRepository();
-    private CrudRepository<CreditApplication> creditApplicationRepo = new CreditApplicationRepository();
     private CrudRepository<Income> incomeRepo = new IncomeRepository();
 
     @Test
@@ -62,25 +62,8 @@ public class RepositoryTest {
         Assert.assertEquals(credit.getId(), creditFromDb.getId());
         Assert.assertEquals(credit.getAmountTaken(), creditFromDb.getAmountTaken());
         Assert.assertEquals(credit.getAmountRepaid(), creditFromDb.getAmountRepaid());
-        Assert.assertEquals(credit.getMarkup(), creditFromDb.getMarkup());
         Assert.assertEquals(credit.getActualRepaymentDate(), creditFromDb.getActualRepaymentDate());
         Assert.assertEquals(credit.getIsPaidOff(), creditFromDb.getIsPaidOff());
         Assert.assertEquals(credit.getType(), creditFromDb.getType());
-    }
-
-    @Test
-    public void test4CreditApplication() {
-        Client client = clientRepo.findRecordById(1L);
-        List<Client> clients = new LinkedList<>();
-        clients.add(client);
-        CreditApplication application = new CreditApplication(1L,
-                new Date(System.currentTimeMillis()), clients, 12, Risk.MEDIUM, null, CreditType.MORTGAGE);
-        creditApplicationRepo.createRecord(application);
-        CreditApplication applicationFromDb = creditApplicationRepo.findRecordById(1L);
-        Assert.assertEquals(application.getId(), applicationFromDb.getId());
-//        Assert.assertEquals(application.getApplicationDate(), applicationFromDb.getApplicationDate());
-        //TODO date format is different
-        Assert.assertEquals(application.getRequestedPeriod(), applicationFromDb.getRequestedPeriod());
-        Assert.assertEquals(application.getRisk(), applicationFromDb.getRisk());
     }
 }

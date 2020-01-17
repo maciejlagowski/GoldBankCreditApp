@@ -3,18 +3,19 @@ package io.github.maciejlagowski.prz.project.model.credit.risk;
 import io.github.maciejlagowski.prz.project.model.bik.BikLiability;
 import io.github.maciejlagowski.prz.project.model.bik.BikReport;
 import io.github.maciejlagowski.prz.project.model.enums.Risk;
+import io.github.maciejlagowski.prz.project.view.Error;
 
 import java.util.List;
 
 class Bik {
 
-    Risk calculateRisk(BikReport bikReport) {
+    Risk calculateRisk(BikReport bikReport) throws Error {
         List<BikLiability> liabilities = bikReport.getLiabilities();
         if (liabilities.isEmpty()) {
             return Risk.HIGH;
         }
         if (isDefault(liabilities)) {
-            return Risk.DEFAULT;
+            throw new Error("Customer has default liability from BIK, cannot proceed application.");
         }
         return calculateLiabilitiesRisk(liabilities);
     }
