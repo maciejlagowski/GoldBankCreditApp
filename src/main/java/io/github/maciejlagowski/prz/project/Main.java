@@ -16,8 +16,5 @@ public class Main extends Application {
     public void start(Stage stage) {
         new Frame().showStage();
         FrameController.getInstance().changeView(new Login());
-//        FrameController.getInstance().changeView(new Home());
-//        FrameController.getInstance().changeView(new CreditGranted());
-//        FrameController.getInstance().changeView(new TypeAndClients());
     }
 }
