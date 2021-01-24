@@ -1,6 +1,6 @@
-package io.github.maciejlagowski.prz.project.model.enums;
+package io.github.maciejlagowski.prz.project.model.enumeration;
 
-import static io.github.maciejlagowski.prz.project.model.enums.Risk.*;
+import static io.github.maciejlagowski.prz.project.model.enumeration.Risk.*;
 
 public enum Industry {
     AEROSPACE (LOW),

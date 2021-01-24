@@ -27,14 +27,14 @@ public class BikApi {
         }
     }
 
-    private BikReport generateBikReport(Long pesel) {
+    public BikReport generateBikReport(Long pesel) {
         BikReport report = new BikReport();
         report.setLiabilities(generateLiabilities());
         report.setPesel(pesel);
         return report;
     }
 
-    private List<BikLiability> generateLiabilities() {
+    public List<BikLiability> generateLiabilities() {
         final int MAX_LIABILITIES_TO_GEN = 6;
         List<BikLiability> liabilities = new LinkedList<>();
         Random random = new Random();

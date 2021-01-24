@@ -6,12 +6,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Error extends Throwable {
 
-    private String message;
+    private final String message;
 
     public void showStage() {
         Stage stage = new Stage();
@@ -19,9 +19,7 @@ public class Error extends Throwable {
         pane.setSpacing(10);
         pane.setMinWidth(300);
         Button button = new Button("OK");
-        button.setOnAction((event) -> {
-            stage.close();
-        });
+        button.setOnAction((event) -> stage.close());
         Label label = new Label("Error: " + message);
         label.setTextFill(Color.web("#FF0000"));
         pane.getChildren().addAll(label, button);

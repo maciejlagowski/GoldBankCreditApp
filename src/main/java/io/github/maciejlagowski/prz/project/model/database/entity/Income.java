@@ -1,7 +1,10 @@
 package io.github.maciejlagowski.prz.project.model.database.entity;
 
-import io.github.maciejlagowski.prz.project.model.enums.Industry;
-import lombok.*;
+import io.github.maciejlagowski.prz.project.model.enumeration.Industry;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +14,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @Entity
 public class Income {
 

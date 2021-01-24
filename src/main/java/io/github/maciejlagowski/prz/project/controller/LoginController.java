@@ -1,50 +1,42 @@
 package io.github.maciejlagowski.prz.project.controller;
 
 import com.dlsc.formsfx.model.structure.Form;
-import io.github.maciejlagowski.prz.project.model.tools.BackgroundTaskRunner;
-import io.github.maciejlagowski.prz.project.view.Home;
-import io.github.maciejlagowski.prz.project.view.Login;
+import io.github.maciejlagowski.prz.project.model.service.BackgroundTaskRunnerService;
+import io.github.maciejlagowski.prz.project.model.service.UserService;
+import io.github.maciejlagowski.prz.project.view.HomeView;
+import io.github.maciejlagowski.prz.project.view.LoginView;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import lombok.Getter;
 import lombok.Setter;
-import org.mindrot.jbcrypt.BCrypt;
 
-public class LoginController extends Controller {
+public class LoginController implements Controller {
 
+    private final UserService userService = new UserService();
+    private final FrameController frameController = FrameController.getInstance();
     @Getter
-    private SimpleStringProperty usernameProperty = new SimpleStringProperty("");
+    private final SimpleStringProperty usernameProperty = new SimpleStringProperty("");
     @Getter
-    private SimpleStringProperty passwordProperty = new SimpleStringProperty("");
+    private final SimpleStringProperty passwordProperty = new SimpleStringProperty("");
     @Setter
     private Form loginForm;
 
-    public void onLoginButtonClick() {
+    public String onLoginButtonClick() {
         loginForm.persist();
-        new BackgroundTaskRunner(() -> {
-            FrameController frameController = FrameController.getInstance();
-            if (login(usernameProperty.get(), passwordProperty.get())) {
+        String username = usernameProperty.get();
+        String password = passwordProperty.get();
+        new BackgroundTaskRunnerService(() -> {
+            if (userService.login(username, password)) {
                 Platform.runLater(() -> {
-                    frameController.changeView(new Home());
+                    frameController.changeView(new HomeView());
                     frameController.loggedAsLabel.setText("Logged as: " + usernameProperty.get());
                     frameController.backToMenuButton.setVisible(true);
                     frameController.logoutLink.setVisible(true);
                 });
             } else {
-                Platform.runLater(() -> frameController.changeView(new Login("Not valid credentials")));
+                Platform.runLater(() -> frameController.changeView(new LoginView("Not valid credentials")));
             }
         }).start();
-    }
-
-    private boolean login(String formUsername, String formPassword) {
-        try {   //TODO from DB, now only simulates sleep
-            Thread.sleep(800);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        final String SALT = BCrypt.gensalt();
-        final String USERNAME = "admin";
-        final String PASSWORD = BCrypt.hashpw("admin", SALT);
-        return formUsername.equals(USERNAME) && BCrypt.checkpw(formPassword, PASSWORD);
+        return username;
     }
 }

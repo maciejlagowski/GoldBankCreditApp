@@ -1,7 +1,8 @@
 package io.github.maciejlagowski.prz.project.model.database.entity;
 
-import io.github.maciejlagowski.prz.project.model.enums.CreditType;
+import io.github.maciejlagowski.prz.project.model.enumeration.CreditType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,11 +10,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Date;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @Entity
 public class Credit {
 
@@ -23,9 +25,9 @@ public class Credit {
     private Double amountTaken;
     private Double amountRepaid;
     private Double fullCreditCost;
-    private Date takeDate;
-    private Date plannedRepaymentDate;
-    private Date actualRepaymentDate;
+    private LocalDate takeDate;
+    private LocalDate plannedRepaymentDate;
+    private LocalDate actualRepaymentDate;
     private Boolean isPaidOff;
     private CreditType type;
     private Double installment;

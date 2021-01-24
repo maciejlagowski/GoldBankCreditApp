@@ -1,14 +1,11 @@
 package io.github.maciejlagowski.prz.project.controller;
 
-import io.github.maciejlagowski.prz.project.model.credit.Application;
-import io.github.maciejlagowski.prz.project.model.credit.offer.OfferGenerator;
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
 import io.github.maciejlagowski.prz.project.model.database.entity.CreditApplication;
-import io.github.maciejlagowski.prz.project.model.enums.CreditType;
-import io.github.maciejlagowski.prz.project.model.tools.BackgroundTaskRunner;
-import io.github.maciejlagowski.prz.project.view.Error;
-import io.github.maciejlagowski.prz.project.view.Home;
-import io.github.maciejlagowski.prz.project.view.credit.Offer;
+import io.github.maciejlagowski.prz.project.model.enumeration.CreditType;
+import io.github.maciejlagowski.prz.project.model.enumeration.Risk;
+import io.github.maciejlagowski.prz.project.model.service.*;
+import io.github.maciejlagowski.prz.project.view.credit.OfferView;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -20,8 +17,13 @@ import javafx.scene.layout.FlowPane;
 import lombok.Data;
 
 @Data
-public class TypeAndClientsController extends Controller {
+public class TypeAndClientsController implements Controller {
 
+    private final FrameController frameController = FrameController.getInstance();
+    private final RiskService riskService = new RiskService();
+    private final CreditService creditService = new CreditService();
+    private final CapacityService capacityService = new CapacityService();
+    private final LimitService limitService = new LimitService();
     private SimpleStringProperty forenameProperty = new SimpleStringProperty("");
     private SimpleStringProperty surnameProperty = new SimpleStringProperty("");
     private SimpleStringProperty addressProperty = new SimpleStringProperty("");
@@ -34,48 +36,45 @@ public class TypeAndClientsController extends Controller {
 
     @Override
     public void onNextButtonClick(ActionEvent event) {
-        FrameController.getInstance().nextButton.setVisible(false);
-        new BackgroundTaskRunner(() -> {
-            try {
-                Application application = new Application()
-                        .setCreditType(creditType)
-                        .setClients(clientsChosen)
-                        .calculateRisk();
-                OfferGenerator offerGenerator = new OfferGenerator(application.getCreditApplication()).generateOffers();
-                Offer offer = new Offer(offerGenerator);
-                Platform.runLater(() -> {
-                    FrameController.getInstance().changeView(offer);
-                    displayInformationOnLeftPane(offerGenerator);
-                });
-            } catch (Error error) {
-                Platform.runLater(error::showStage);
-                Platform.runLater(() -> FrameController.getInstance().changeView(new Home()));
-            }
+        frameController.nextButton.setVisible(false);
+        CreditApplication application = creditService.createCreditApplication(creditType, clientsChosen);
+        if (application.getRisk().equals(Risk.DEFAULT)) {
+            // TODO if risk is default then error
+        } // TODO empty or null list cannot go further
+        new BackgroundTaskRunnerService(() -> {
+            OfferView offerView = new OfferView(application);
+            Platform.runLater(() -> {
+                FrameController.getInstance().changeView(offerView);
+                displayInformationOnLeftPane(application);
+            });
         }).start();
     }
 
-    public void onAddClientButtonClick() {
+    public Client onAddClientButtonClick() {
         Client client = clientsFromDbListView.getSelectionModel().getSelectedItem();
         if (!clientsChosen.contains(client)) {
             clientsChosen.add(client);
         }
+        return client;
     }
 
-    public void onRemoveClientButtonClick() {
+    public Client onRemoveClientButtonClick() {
         Client client = clientsChosenListView.getSelectionModel().getSelectedItem();
         clientsChosen.remove(client);
+        return client;
     }
 
-    private void displayInformationOnLeftPane(OfferGenerator offerGenerator) {
-        FlowPane pane = FrameController.getInstance().leftPane;
+    private String displayInformationOnLeftPane(CreditApplication application) {
+        FlowPane pane = frameController.leftPane;
         pane.getChildren().clear();
-        CreditApplication application = offerGenerator.getApplication();
-        String information = "\nType of application: " + application.getType() +
-                "\n\nApplication date: " + application.getApplicationDate() +
-                "\n\nApplication risk: " + application.getRisk() +
-                "\n\nCredit limit: " + offerGenerator.getLimit() +
-                "\n\nCapacity: " + offerGenerator.getCapacity();
+        String information =
+                "\nType of application: " + application.getType() +
+                        "\n\nApplication date: " + application.getApplicationDate() +
+                        "\n\nApplication risk: " + application.getRisk() +
+                        "\n\nCredit limit: " + limitService.calculateLimit(application) +
+                        "\n\nCapacity: " + capacityService.calculateCapacity(application);
         Label label = new Label(information);
         pane.getChildren().add(label);
+        return information;
     }
 }

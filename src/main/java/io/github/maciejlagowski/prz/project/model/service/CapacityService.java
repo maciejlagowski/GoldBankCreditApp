@@ -1,6 +1,5 @@
-package io.github.maciejlagowski.prz.project.model.credit.offer;
+package io.github.maciejlagowski.prz.project.model.service;
 
-import io.github.maciejlagowski.prz.project.model.bik.BikApi;
 import io.github.maciejlagowski.prz.project.model.bik.BikLiability;
 import io.github.maciejlagowski.prz.project.model.bik.BikReport;
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
@@ -10,28 +9,30 @@ import io.github.maciejlagowski.prz.project.model.database.entity.Income;
 
 import java.util.List;
 
-class Capacity {
+public class CapacityService {
 
-    double calculateCapacity(CreditApplication application) {
+    private final BikService bikService = new BikService();
+
+    public double calculateCapacity(CreditApplication application) {
         double capacity = 0.0;
         for (Client client : application.getClients()) {
-            capacity += calculateClientCapacity(client);
+            capacity += calculateClientCapacity(client, bikService.getBikReport(client));
         }
         return capacity;
     }
 
-    private double calculateClientCapacity(Client client) {
-        double incomes = calculateClientIncomes(client.getIncomes());
-        double liabilities = calculateClientLiabilities(client.getCredits());
-        liabilities += calculateBikLiabilities(new BikApi("123456789").getBikReport(client.getPesel()));
+    public double calculateClientCapacity(Client client, BikReport bikReport) {
+        double incomes = sumClientIncomes(client.getIncomes());
+        double liabilities = sumBankInstallments(client.getCredits());
+        liabilities += sumBikInstallments(bikReport);
         return incomes - liabilities;
     }
 
-    private double calculateClientIncomes(List<Income> incomes) {
+    public double sumClientIncomes(List<Income> incomes) {
         return incomes.stream().mapToDouble(Income::getAmount).sum();
     }
 
-    private double calculateClientLiabilities(List<Credit> liabilities) {
+    public double sumBankInstallments(List<Credit> liabilities) {
         double sum = 0.0;
         for (Credit liability : liabilities) {
             if (!liability.getIsPaidOff()) {
@@ -41,7 +42,7 @@ class Capacity {
         return sum;
     }
 
-    private double calculateBikLiabilities(BikReport report) {
+    public double sumBikInstallments(BikReport report) {
         double sum = 0.0;
         for (BikLiability liability : report.getLiabilities()) {
             if (!liability.getIsPaidOff()) {

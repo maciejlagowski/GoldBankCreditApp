@@ -5,7 +5,8 @@ import com.dlsc.formsfx.model.structure.Form;
 import com.dlsc.formsfx.model.structure.Group;
 import com.dlsc.formsfx.view.renderer.FormRenderer;
 import io.github.maciejlagowski.prz.project.controller.AddIncomeController;
-import io.github.maciejlagowski.prz.project.model.enums.Industry;
+import io.github.maciejlagowski.prz.project.model.enumeration.Industry;
+import io.github.maciejlagowski.prz.project.view.View;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -17,9 +18,9 @@ import javafx.stage.Stage;
 
 import java.util.Arrays;
 
-public class AddIncome {
+public class AddIncomeView implements View {
 
-    private AddIncomeController controller = new AddIncomeController();
+    private final AddIncomeController controller = new AddIncomeController();
     private Stage stage;
 
     public void showStage() {
@@ -30,7 +31,7 @@ public class AddIncome {
         stage.showAndWait();
     }
 
-    private Node createAddIncomeButton() {
+    public Node createAddIncomeButton() {
         Button addIncomeButton = new Button("Add income");
         addIncomeButton.setOnAction((event) -> {
             controller.onAddIncomeButtonClick();
@@ -39,7 +40,7 @@ public class AddIncome {
         return addIncomeButton;
     }
 
-    private Node createIncomeForm() {
+    public Node createIncomeForm() {
         Form incomeForm = Form.of(Group.of(
                 Field.ofStringType(controller.getCompanyNameProperty())
                         .label("Company \nname")
@@ -54,7 +55,7 @@ public class AddIncome {
         return formRenderer;
     }
 
-    private Node createCompanyIndustryForm() {
+    public Node createCompanyIndustryForm() {
         ChoiceBox<Industry> choiceBox = new ChoiceBox<>();
         choiceBox.setItems(FXCollections.observableArrayList(Arrays.asList(Industry.values())));
         choiceBox.setOnAction((event) -> controller.setCompanyIndustryProperty(choiceBox.getValue()));

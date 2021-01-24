@@ -3,28 +3,36 @@ package io.github.maciejlagowski.prz.project.controller;
 import com.dlsc.formsfx.model.structure.Form;
 import io.github.maciejlagowski.prz.project.model.database.entity.Income;
 import io.github.maciejlagowski.prz.project.model.database.repository.IncomeRepository;
-import io.github.maciejlagowski.prz.project.model.enums.Industry;
+import io.github.maciejlagowski.prz.project.model.enumeration.Industry;
+import io.github.maciejlagowski.prz.project.view.client.AddClientView;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-public class AddIncomeController extends Controller {
+public class AddIncomeController implements Controller {
 
+    private final FrameController frameController = FrameController.getInstance();
+    private final IncomeRepository incomeRepository = new IncomeRepository();
     @Getter
-    private SimpleDoubleProperty amountProperty = new SimpleDoubleProperty(0.0);
+    private final SimpleDoubleProperty amountProperty = new SimpleDoubleProperty(0.0);
     @Getter
-    private SimpleStringProperty companyNameProperty = new SimpleStringProperty("");
+    private final SimpleStringProperty companyNameProperty = new SimpleStringProperty("");
     @Setter
     private Form incomeForm;
     @Setter
     private Industry companyIndustryProperty;
 
-    public void onAddIncomeButtonClick() {
+    public Income onAddIncomeButtonClick() {
         incomeForm.persist();
-        Income income = new Income(null, amountProperty.get(), companyNameProperty.get(), companyIndustryProperty);
-        new IncomeRepository().createRecord(income);
-        AddClientController controller = (AddClientController) FrameController.getInstance().getActualView().getController();
-        controller.getIncomes().add(income);
+        Income income = Income.builder()
+                .amount(amountProperty.get())
+                .companyName(companyNameProperty.get())
+                .industry(companyIndustryProperty)
+                .build();
+        income = incomeRepository.save(income);
+        AddClientView view = (AddClientView) frameController.getActualView();
+        view.getController().getIncomes().add(income);
+        return income;
     }
 }

@@ -11,38 +11,35 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @NoArgsConstructor
-public class Login implements View {
+public class LoginView implements View {
 
-    @Getter
-    private LoginController controller = new LoginController();
+    private final LoginController controller = new LoginController();
     private String message = "";
 
-    public Login(String message) {
+    public LoginView(String message) {
         this.message = message;
     }
 
     public List<Node> createContent() {
-        return new LinkedList<>(List.of(
+        return List.of(
                 createLoginForm(),
                 createErrorMessage(),
                 createLoginButton()
-        ));
+        );
     }
 
-    private Node createErrorMessage() {
+    public Node createErrorMessage() {
         Label label = new Label(message);
         label.setTextFill(Color.web("#FF0000"));
         return label;
     }
 
-    private Node createLoginForm() {
+    public Node createLoginForm() {
         Form loginForm = Form.of(Group.of(
                 Field.ofStringType(controller.getUsernameProperty())
                         .label("Username")
@@ -57,7 +54,7 @@ public class Login implements View {
         return renderer;
     }
 
-    private Node createLoginButton() {
+    public Node createLoginButton() {
         Button loginButton = new Button("Login");
         loginButton.setOnAction(event -> controller.onLoginButtonClick());
         loginButton.setPrefSize(400, 70);

@@ -2,9 +2,8 @@ package io.github.maciejlagowski.prz.project.view.credit;
 
 import io.github.maciejlagowski.prz.project.controller.TypeAndClientsController;
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
-import io.github.maciejlagowski.prz.project.model.enums.CreditType;
-import io.github.maciejlagowski.prz.project.model.tools.filter.Filter;
-import io.github.maciejlagowski.prz.project.model.tools.filter.FilterEnum;
+import io.github.maciejlagowski.prz.project.model.enumeration.CreditType;
+import io.github.maciejlagowski.prz.project.model.service.ClientFilterService;
 import io.github.maciejlagowski.prz.project.view.View;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
@@ -14,30 +13,29 @@ import javafx.scene.layout.VBox;
 import lombok.Getter;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
-public class TypeAndClients implements View {
+public class TypeAndClientsView implements View {
 
     @Getter
-    private TypeAndClientsController controller = new TypeAndClientsController();
+    private final TypeAndClientsController controller = new TypeAndClientsController();
 
-    public TypeAndClients(List<Client> clients) {
+    public TypeAndClientsView(List<Client> clients) {
         controller.setClientsFromDb(FXCollections.observableArrayList(clients));
     }
 
     public List<Node> createContent() {
-        return new LinkedList<>(List.of(
+        return List.of(
                 createTypeForm(),
                 createClientsFromDbList(),
                 createClientsChosenList(),
                 createAddClientButton(),
                 createRemoveClientButton(),
                 createSearchFields()
-        ));
+        );
     }
 
-    private Node createTypeForm() {
+    public Node createTypeForm() {
         ChoiceBox<CreditType> choiceBox = new ChoiceBox<>();
         choiceBox.setItems(FXCollections.observableArrayList(Arrays.asList(CreditType.values())));
         choiceBox.setOnAction((event) -> controller.setCreditType(choiceBox.getValue()));
@@ -45,7 +43,7 @@ public class TypeAndClients implements View {
         return choiceBox;
     }
 
-    private Node createClientsFromDbList() {
+    public Node createClientsFromDbList() {
         ListView<Client> listView = new ListView<>();
         listView.setMaxWidth(500);
         listView.setMaxHeight(200);
@@ -54,7 +52,7 @@ public class TypeAndClients implements View {
         return listView;
     }
 
-    private Node createClientsChosenList() {
+    public Node createClientsChosenList() {
         ListView<Client> listView = new ListView<>();
         listView.setMaxWidth(500);
         listView.setMaxHeight(200);
@@ -63,19 +61,19 @@ public class TypeAndClients implements View {
         return listView;
     }
 
-    private Node createAddClientButton() {
+    public Node createAddClientButton() {
         Button addClientButton = new Button("Add client");
         addClientButton.setOnAction((event) -> controller.onAddClientButtonClick());
         return addClientButton;
     }
 
-    private Node createRemoveClientButton() {
+    public Node createRemoveClientButton() {
         Button removeClientButton = new Button("Remove client");
         removeClientButton.setOnAction((event) -> controller.onRemoveClientButtonClick());
         return removeClientButton;
     }
 
-    private Node createSearchFields() {
+    public Node createSearchFields() { // TODO duplicate
         Label forenameLabel = new Label("Forename");
         Label surnameLabel = new Label("Surname");
         Label addressLabel = new Label("Address");
@@ -86,10 +84,11 @@ public class TypeAndClients implements View {
         TextField addressField = new TextField();
         List<Client> clients = controller.getClientsFromDb();
         ListView<Client> listView = controller.getClientsFromDbListView();
-        forenameField.setOnKeyTyped((event) -> listView.setItems(Filter.filterClients(forenameField.getText(), FilterEnum.FORENAME, clients)));
-        surnameField.setOnKeyTyped((event) -> listView.setItems(Filter.filterClients(surnameField.getText(), FilterEnum.SURNAME, clients)));
-        peselField.setOnKeyTyped((event) -> listView.setItems(Filter.filterClients(peselField.getText(), FilterEnum.PESEL, clients)));
-        addressField.setOnKeyTyped((event) -> listView.setItems(Filter.filterClients(addressField.getText(), FilterEnum.ADDRESS, clients)));
+        ClientFilterService filter = new ClientFilterService();
+        forenameField.setOnKeyTyped((event) -> listView.setItems(filter.filterByForename(forenameField.getText(), clients)));
+        surnameField.setOnKeyTyped((event) -> listView.setItems(filter.filterBySurname(surnameField.getText(), clients)));
+        peselField.setOnKeyTyped((event) -> listView.setItems(filter.filterByPesel(peselField.getText(), clients)));
+        addressField.setOnKeyTyped((event) -> listView.setItems(filter.filterByAddress(addressField.getText(), clients)));
         Pane pane = new VBox();
         pane.getChildren().addAll(forenameLabel, forenameField,
                 surnameLabel, surnameField,

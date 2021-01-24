@@ -1,9 +1,8 @@
 package io.github.maciejlagowski.prz.project.controller;
 
-import io.github.maciejlagowski.prz.project.view.Home;
-import io.github.maciejlagowski.prz.project.view.Login;
+import io.github.maciejlagowski.prz.project.view.HomeView;
+import io.github.maciejlagowski.prz.project.view.LoginView;
 import io.github.maciejlagowski.prz.project.view.View;
-import io.github.maciejlagowski.prz.project.view.ViewEnum;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,7 +12,7 @@ import javafx.scene.layout.FlowPane;
 import lombok.Getter;
 import lombok.Setter;
 
-public class FrameController extends Controller {
+public class FrameController implements Controller {
 
     @Setter
     private static FrameController instance;
@@ -38,29 +37,26 @@ public class FrameController extends Controller {
     }
 
     public void onNextButtonClick(ActionEvent event) {
-        try {
-            actualView.getController().onNextButtonClick(event);
-        } catch (RuntimeException e) {
-            System.err.println("Button should be inactive here");
-        }
+        actualView.getController().onNextButtonClick(event);
     }
 
-    public void logoutLinkClicked(ActionEvent event) {
-        changeView(new Login());
+    public View logoutLinkClicked(ActionEvent event) {
+        View loginView = new LoginView();
         logoutLink.setVisible(false);
         loggedAsLabel.setText("Not logged");
         backToMenuButton.setVisible(false);
+        return changeView(loginView);
     }
 
-    public void changeView(View view) {
+    public View changeView(View view) {
         contentPane.getChildren().clear();
         contentPane.getChildren().addAll(view.createContent());
         actualView = view;
-        ViewEnum.setActualView(view);
+        return view;
     }
 
-    public void onBackToMenuButtonClick(ActionEvent event) {
-        changeView(new Home());
+    public View onBackToMenuButtonClick(ActionEvent event) {
         nextButton.setVisible(false);
+        return changeView(new HomeView());
     }
 }

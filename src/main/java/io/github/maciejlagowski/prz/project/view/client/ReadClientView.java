@@ -3,6 +3,7 @@ package io.github.maciejlagowski.prz.project.view.client;
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
 import io.github.maciejlagowski.prz.project.model.database.entity.Credit;
 import io.github.maciejlagowski.prz.project.model.database.entity.Income;
+import io.github.maciejlagowski.prz.project.view.View;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,12 +14,12 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
-public class ReadClient {
+@RequiredArgsConstructor
+public class ReadClientView implements View {
 
-    private Client client;
+    private final Client client;
 
     public void showStage() {
         Stage stage = new Stage();
@@ -31,7 +32,7 @@ public class ReadClient {
         stage.showAndWait();
     }
 
-    private Node createClientInformation() {
+    public Node createClientInformation() {
         Pane pane = new VBox();
         ListView<Credit> creditListView = new ListView<>();
         ListView<Income> incomeListView = new ListView<>();
@@ -53,9 +54,9 @@ public class ReadClient {
         return pane;
     }
 
-    private Label createSumLabel() {
-        Double sumCredits = 0.0;
-        Double sumIncomes = 0.0;
+    public Label createSumLabel() {
+        double sumCredits = 0.0;
+        double sumIncomes = 0.0;
         for (Income income : client.getIncomes()) {
             sumIncomes += income.getAmount();
         }

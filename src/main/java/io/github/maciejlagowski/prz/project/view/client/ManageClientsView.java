@@ -2,8 +2,7 @@ package io.github.maciejlagowski.prz.project.view.client;
 
 import io.github.maciejlagowski.prz.project.controller.ManageClientsController;
 import io.github.maciejlagowski.prz.project.model.database.entity.Client;
-import io.github.maciejlagowski.prz.project.model.tools.filter.Filter;
-import io.github.maciejlagowski.prz.project.model.tools.filter.FilterEnum;
+import io.github.maciejlagowski.prz.project.model.service.ClientFilterService;
 import io.github.maciejlagowski.prz.project.view.Error;
 import io.github.maciejlagowski.prz.project.view.View;
 import javafx.collections.FXCollections;
@@ -17,35 +16,34 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
-import java.util.LinkedList;
 import java.util.List;
 
-public class ManageClients implements View {
+public class ManageClientsView implements View {
 
     @Getter
-    private ManageClientsController controller = new ManageClientsController();
+    private final ManageClientsController controller = new ManageClientsController();
     private ListView<Client> listView;
 
-    public ManageClients(List<Client> clients) {
+    public ManageClientsView(List<Client> clients) {
         controller.setClients(clients);
     }
 
     public List<Node> createContent() {
-        return new LinkedList<>(List.of(
+        return List.of(
                 createClientsList(),
                 createButtons(),
                 createSearchFields()
-        ));
+        );
     }
 
-    private Node createClientsList() {
+    public Node createClientsList() {
         ListView<Client> listView = new ListView<>();
         listView.setItems(FXCollections.observableArrayList(controller.getClients()));
         this.listView = listView;
         return listView;
     }
 
-    private Node createButtons() {
+    public Node createButtons() {
         Button createButton = new Button("Create");
         Button readButton = new Button("Read");
         Button deleteButton = new Button("Delete");
@@ -73,7 +71,7 @@ public class ManageClients implements View {
         return pane;
     }
 
-    private Node createSearchFields() {
+    public Node createSearchFields() {
         Label forenameLabel = new Label("Forename");
         Label surnameLabel = new Label("Surname");
         Label addressLabel = new Label("Address");
@@ -83,10 +81,11 @@ public class ManageClients implements View {
         TextField peselField = new TextField();
         TextField addressField = new TextField();
         List<Client> clients = controller.getClients();
-        forenameField.setOnKeyTyped((event) -> listView.setItems(Filter.filterClients(forenameField.getText(), FilterEnum.FORENAME, clients)));
-        surnameField.setOnKeyTyped((event) -> listView.setItems(Filter.filterClients(surnameField.getText(), FilterEnum.SURNAME, clients)));
-        peselField.setOnKeyTyped((event) -> listView.setItems(Filter.filterClients(peselField.getText(), FilterEnum.PESEL, clients)));
-        addressField.setOnKeyTyped((event) -> listView.setItems(Filter.filterClients(addressField.getText(), FilterEnum.ADDRESS, clients)));
+        ClientFilterService filter = new ClientFilterService();
+        forenameField.setOnKeyTyped((event) -> listView.setItems(filter.filterByForename(forenameField.getText(), clients)));
+        surnameField.setOnKeyTyped((event) -> listView.setItems(filter.filterBySurname(surnameField.getText(), clients)));
+        peselField.setOnKeyTyped((event) -> listView.setItems(filter.filterByPesel(peselField.getText(), clients)));
+        addressField.setOnKeyTyped((event) -> listView.setItems(filter.filterByAddress(addressField.getText(), clients)));
         Pane pane = new VBox();
         pane.getChildren().addAll(forenameLabel, forenameField,
                 surnameLabel, surnameField,
@@ -95,7 +94,7 @@ public class ManageClients implements View {
         return pane;
     }
 
-    private Client getSelectedClient() throws Error {
+    public Client getSelectedClient() throws Error {
         Client client = listView.getSelectionModel().getSelectedItem();
         if (client != null) {
             return client;

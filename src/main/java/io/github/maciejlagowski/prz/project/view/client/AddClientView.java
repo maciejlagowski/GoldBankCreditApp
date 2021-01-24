@@ -18,10 +18,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Getter;
 
-public class AddClient implements View {
+public class AddClientView implements View {
 
     @Getter
-    private AddClientController controller = new AddClientController();
+    private final AddClientController controller = new AddClientController();
 
     public void showStage() {
         Stage stage = new Stage();
@@ -32,7 +32,7 @@ public class AddClient implements View {
         stage.showAndWait();
     }
 
-    private Node createButtons() {
+    public Node createButtons() {
         FlowPane flowPane = new FlowPane();
         flowPane.setHgap(10);
         Button addClientButton = new Button("Add client");
@@ -52,7 +52,7 @@ public class AddClient implements View {
         return flowPane;
     }
 
-    private Node createClientForm() {
+    public Node createClientForm() {
         Form clientForm = Form.of(Group.of(
                 Field.ofStringType(controller.getForenameProperty())
                         .label("Forename")
@@ -73,7 +73,7 @@ public class AddClient implements View {
         return formRenderer;
     }
 
-    private Node createIncomesList() {
+    public Node createIncomesList() {
         ListView<Income> incomeListView = new ListView<>();
         incomeListView.setItems(controller.getIncomes());
         controller.setIncomeListView(incomeListView);

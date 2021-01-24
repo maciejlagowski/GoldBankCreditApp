@@ -22,7 +22,7 @@ public class Frame {
             stage.setResizable(false);
             FrameController.setInstance(fxmlLoader.getController());
             stage.show();
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             new Error("Cannot load FXML file").showStage();
         }
     }

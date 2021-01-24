@@ -1,15 +1,16 @@
 package io.github.maciejlagowski.prz.project.model.bik;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Getter
-@Setter(AccessLevel.PACKAGE)
-@ToString
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BikLiability {
 
     private Long id;
@@ -19,7 +20,4 @@ public class BikLiability {
     private Boolean isPaidOff;
     private Double installment;
     private Boolean isDefault;
-
-    BikLiability() {
-    }
 }

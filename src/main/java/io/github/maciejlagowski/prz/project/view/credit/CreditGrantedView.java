@@ -8,7 +8,7 @@ import javafx.scene.layout.*;
 
 import java.util.List;
 
-public class CreditGranted implements View {
+public class CreditGrantedView implements View {
 
     public List<Node> createContent() {
         Pane pane = new VBox();
