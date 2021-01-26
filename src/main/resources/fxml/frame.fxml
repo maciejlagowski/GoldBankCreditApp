@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            fx:controller="io.github.maciejlagowski.prz.project.controller.FrameController">
+            fx:controller="io.github.maciejlagowski.goldbank.controller.FrameController">
     <left>
         <FlowPane fx:id="leftPane" orientation="VERTICAL" prefHeight="534.0" prefWidth="280.0"
                   style="-fx-background-color: #E0E0E0" BorderPane.alignment="CENTER"/>
